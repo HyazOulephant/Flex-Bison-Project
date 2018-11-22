@@ -1,5 +1,5 @@
 all:
-	flex -o projet.flex.cpp projet.flex
-	bison -d projet.y -o projet.y.cpp
-	g++ -o projet projet.flex.cpp projet.y.cpp -w
-	./projet doc.txt
+	flex -o compilation/projet.flex.cpp projet.flex
+	bison -t -d projet.y -o compilation/projet.y.cpp
+	g++ -o compilation/projet compilation/projet.flex.cpp compilation/projet.y.cpp -w `sdl2-config --cflags --libs`
+	./compilation/projet test.txt
