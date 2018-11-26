@@ -65,8 +65,10 @@
 #line 1 "projet.y" /* yacc.c:339  */
 
   #include <iostream>
-  #include <string>
+  #include <vector>
   #include <SDL2/SDL.h>
+
+  #include "instruction.h"
 
   extern FILE *yyin;
   extern int yylex ();
@@ -75,7 +77,10 @@
   int posx = 0;
   int posy = 0;
 
-#line 79 "compilation/projet.y.cpp" /* yacc.c:339  */
+  std::vector<Instruction> pile = {};
+
+
+#line 84 "projet.y.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -95,8 +100,8 @@
 
 /* In a future release of Bison, this section will be replaced
    by #include "projet.y.hpp".  */
-#ifndef YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED
-# define YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED
+#ifndef YY_YY_PROJET_Y_HPP_INCLUDED
+# define YY_YY_PROJET_Y_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -111,7 +116,10 @@ extern int yydebug;
   enum yytokentype
   {
     NUMBER = 258,
-    POSITION = 259
+    POSITION = 259,
+    IF = 260,
+    ELSE = 261,
+    ENDIF = 262
   };
 #endif
 
@@ -120,11 +128,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "projet.y" /* yacc.c:355  */
+#line 20 "projet.y" /* yacc.c:355  */
 
   double valeur;
 
-#line 128 "compilation/projet.y.cpp" /* yacc.c:355  */
+#line 136 "projet.y.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -137,11 +145,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED  */
+#endif /* !YY_YY_PROJET_Y_HPP_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 145 "compilation/projet.y.cpp" /* yacc.c:358  */
+#line 153 "projet.y.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -383,21 +391,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   38
+#define YYLAST   57
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  13
+#define YYNTOKENS  16
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  4
+#define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  12
+#define YYNRULES  17
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  24
+#define YYNSTATES  34
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   259
+#define YYMAXUTOK   262
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -407,13 +415,10 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       9,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      12,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      10,    12,     7,     5,    11,     6,     2,     8,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      13,    15,    10,     8,    14,     9,     2,    11,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -431,15 +436,19 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6,     7
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    27,    27,    28,    30,    31,    32,    34,    35,    36,
-      37,    38,    39
+       0,    36,    36,    37,    40,    43,    44,    44,    48,    51,
+      54,    54,    61,    62,    63,    64,    65,    66
 };
 #endif
 
@@ -448,9 +457,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "NUMBER", "POSITION", "'+'", "'-'",
-  "'*'", "'/'", "'\\n'", "'('", "','", "')'", "$accept", "ligne",
-  "instruction", "expression", YY_NULLPTR
+  "$end", "error", "$undefined", "NUMBER", "POSITION", "IF", "ELSE",
+  "ENDIF", "'+'", "'-'", "'*'", "'/'", "'\\n'", "'('", "','", "')'",
+  "$accept", "ligne", "instruction", "$@1", "finInstructionSi", "$@2",
+  "expression", YY_NULLPTR
 };
 #endif
 
@@ -459,15 +469,15 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,    43,    45,    42,    47,    10,
-      40,    44,    41
+       0,   256,   257,   258,   259,   260,   261,   262,    43,    45,
+      42,    47,    10,    40,    44,    41
 };
 # endif
 
-#define YYPACT_NINF -9
+#define YYPACT_NINF -16
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-9)))
+  (!!((Yystate) == (-16)))
 
 #define YYTABLE_NINF -1
 
@@ -478,9 +488,10 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -9,     1,    -9,    -9,    -8,    14,     9,    30,    14,     7,
-      -9,    14,    14,    14,    14,    23,    -9,    18,    18,    -9,
-      -9,    14,    15,    -9
+     -16,     2,   -16,   -16,    -1,    15,    15,     5,    46,    15,
+      46,    23,   -16,    15,    15,    15,    15,    39,   -16,   -16,
+       3,     3,   -16,   -16,    15,    17,    31,   -16,   -16,   -16,
+     -16,   -16,    22,   -16
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -488,21 +499,22 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     6,     1,    12,     0,     0,     0,     5,     0,     0,
-       2,     0,     0,     0,     0,     0,    11,     7,     8,     9,
-      10,     0,     0,     4
+       3,     8,     1,    17,     0,     0,     0,     0,     5,     0,
+       6,     0,     2,     0,     0,     0,     0,     0,     3,    16,
+      12,    13,    14,    15,     0,     8,     0,    10,     9,     7,
+       4,     3,     8,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -9,    -9,    -9,    -5
+     -16,   -15,   -16,   -16,   -16,   -16,    -5
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     6,     7
+      -1,     1,     7,    18,    29,    31,     8
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -510,41 +522,46 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       9,     2,     8,    15,     3,     4,    17,    18,    19,    20,
-       0,     5,    11,    12,    13,    14,    22,     3,    10,    16,
-      11,    12,    13,    14,     5,    13,    14,    23,    11,    12,
-      13,    14,     0,     0,    21,    11,    12,    13,    14
+      10,    11,     2,    25,    17,     3,     4,     5,    20,    21,
+      22,    23,     9,    15,    16,     6,    32,    12,     3,    26,
+       3,     4,     5,    27,    28,     3,     4,     5,     6,    33,
+       6,    13,    14,    15,    16,     6,     0,     0,    19,    13,
+      14,    15,    16,     0,     0,     0,    30,    13,    14,    15,
+      16,     0,     0,    24,    13,    14,    15,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     0,    10,     8,     3,     4,    11,    12,    13,    14,
-      -1,    10,     5,     6,     7,     8,    21,     3,     9,    12,
-       5,     6,     7,     8,    10,     7,     8,    12,     5,     6,
-       7,     8,    -1,    -1,    11,     5,     6,     7,     8
+       5,     6,     0,    18,     9,     3,     4,     5,    13,    14,
+      15,    16,    13,    10,    11,    13,    31,    12,     3,    24,
+       3,     4,     5,     6,     7,     3,     4,     5,    13,     7,
+      13,     8,     9,    10,    11,    13,    -1,    -1,    15,     8,
+       9,    10,    11,    -1,    -1,    -1,    15,     8,     9,    10,
+      11,    -1,    -1,    14,     8,     9,    10,    11
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    14,     0,     3,     4,    10,    15,    16,    10,    16,
-       9,     5,     6,     7,     8,    16,    12,    16,    16,    16,
-      16,    11,    16,    12
+       0,    17,     0,     3,     4,     5,    13,    18,    22,    13,
+      22,    22,    12,     8,     9,    10,    11,    22,    19,    15,
+      22,    22,    22,    22,    14,    17,    22,     6,     7,    20,
+      15,    21,    17,     7
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    13,    14,    14,    15,    15,    15,    16,    16,    16,
-      16,    16,    16
+       0,    16,    17,    17,    18,    18,    19,    18,    18,    20,
+      21,    20,    22,    22,    22,    22,    22,    22
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     0,     6,     1,     0,     3,     3,     3,
-       3,     3,     1
+       0,     2,     3,     0,     6,     1,     0,     5,     0,     1,
+       0,     4,     3,     3,     3,     3,     3,     1
 };
 
 
@@ -1221,55 +1238,89 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 30 "projet.y" /* yacc.c:1646  */
-    { posx = (yyvsp[-3].valeur); posy = (yyvsp[-1].valeur); }
-#line 1227 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 40 "projet.y" /* yacc.c:1646  */
+    {
+                pile.push_back(Instruction (IDs::Position, {(yyvsp[-3].valeur),(yyvsp[-1].valeur)}));
+              }
+#line 1246 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 31 "projet.y" /* yacc.c:1646  */
-    { std::cout << (yyvsp[0].valeur) << "bing" << std::endl; }
-#line 1233 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 43 "projet.y" /* yacc.c:1646  */
+    { std::cout << (yyvsp[0].valeur) << " bing" << std::endl; }
+#line 1252 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 7:
-#line 34 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) + (yyvsp[0].valeur); }
-#line 1239 "compilation/projet.y.cpp" /* yacc.c:1646  */
-    break;
-
-  case 8:
-#line 35 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) - (yyvsp[0].valeur); }
-#line 1245 "compilation/projet.y.cpp" /* yacc.c:1646  */
+  case 6:
+#line 44 "projet.y" /* yacc.c:1646  */
+    {
+                pile.push_back(Instruction (IDs::Si, {(yyvsp[0].valeur)}));
+              }
+#line 1260 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 36 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
-#line 1251 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 51 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::FinSi, {}));
+                  }
+#line 1268 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 37 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
-#line 1257 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 54 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::Sinon, {}));
+                  }
+#line 1276 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 38 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-1].valeur); }
-#line 1263 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 56 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::FinSi, {}));
+                  }
+#line 1284 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 39 "projet.y" /* yacc.c:1646  */
+#line 61 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) + (yyvsp[0].valeur); }
+#line 1290 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 13:
+#line 62 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) - (yyvsp[0].valeur); }
+#line 1296 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 14:
+#line 63 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+#line 1302 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 15:
+#line 64 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+#line 1308 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 16:
+#line 65 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-1].valeur); }
+#line 1314 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 17:
+#line 66 "projet.y" /* yacc.c:1646  */
     { (yyval.valeur) = (yyvsp[0].valeur); }
-#line 1269 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 1320 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1273 "compilation/projet.y.cpp" /* yacc.c:1646  */
+#line 1324 "projet.y.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1497,7 +1548,70 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 41 "projet.y" /* yacc.c:1906  */
+#line 68 "projet.y" /* yacc.c:1906  */
+
+
+
+unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
+  for(int i = iter; i < stack.size(); i++){
+    std::vector<int> params = stack[i].getParametres();
+    IDs id = stack[i].getId();
+    switch(id){
+      case IDs::Rien: // Ne fait rien... utile au deboquage
+        // std::cout << "ATTENTION Il n'y a rien ici!" << std::endl;
+        break;
+
+      case IDs::Position: // Applique une nouvelle position
+        posx = params[0]; posy = params[1];
+        break;
+
+      case IDs::Si: // Condition Si
+        if(params[0]){
+          i = execution(stack, i+1);
+
+          if(stack[i].getId() == IDs::Sinon){ // Si nous avons un "Sinon", nous evitons son bloc d'instructions
+            i++;
+            int nbsi = 0; // Nombre de "SI" a l'interieur du bloc conditionnel
+            while(stack[i].getId() != IDs::FinSi || nbsi > 0){
+              if(stack[i].getId() == IDs::Si){
+                nbsi++;
+              }else if(stack[i].getId() == IDs::FinSi){
+                nbsi--;
+              }
+              i++;
+            }
+          }
+        }else{
+          i++;
+          int nbsi = 0; // Nombre de "SI" a l'interieur du bloc conditionnel
+          while( (stack[i].getId() != IDs::FinSi && stack[i].getId() != IDs::Sinon) || nbsi > 0){
+            if(stack[i].getId() == IDs::Si){
+              nbsi++;
+            }else if(stack[i].getId() == IDs::FinSi){
+              nbsi--;
+            }
+            i++;
+          }
+
+          if(stack[i].getId() == IDs::Sinon){ // Si nous avons un "Sinon" nous appliquons son bloc d'instructions
+            i = execution(stack, i+1);
+          }
+        }
+        // Ici nous sommes a un "FinSi" donc nous passons simplement a l'instruction suivante
+        i++;
+        break;
+
+      case IDs::FinSi: // Instruction Obligatoire apres un "Si" !
+        return i; // On retourne la position du "FinSi" et on revient au bloc d'instruction superieur
+        break;
+
+      case IDs::Sinon: // Instruction Obligatoire apres un "Si" !
+        // Si nous tombons sur cette instruction alors c'est que nous sommes deja dans le bloc du "Si", auquel cas le bloc du sinon est evite
+        return i; // On retourne la position du "Sinon" et le "Si" s'occupe de l'eviter
+        break;
+    }
+  }
+}
 
 int main(int argc, char **argv) {
   // Creation de la fenetre
@@ -1512,12 +1626,16 @@ int main(int argc, char **argv) {
     yyin = stdin;
   yyparse();
 
+  // On execute les instructions
+  execution(pile, 0);
+
 
   SDL_RenderDrawPoint(renderer, posx, posy);
 
-  std::cout << posx << " " << posy << std::endl;
   // Affichage de la fenetre
   SDL_RenderPresent(renderer);
+
+  // On entre un caractere pour fermer la fenetre
   std::string a;
   std::cin >> a;
 }

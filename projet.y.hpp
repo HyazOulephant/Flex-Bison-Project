@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED
-# define YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED
+#ifndef YY_YY_PROJET_Y_HPP_INCLUDED
+# define YY_YY_PROJET_Y_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -46,7 +46,10 @@ extern int yydebug;
   enum yytokentype
   {
     NUMBER = 258,
-    POSITION = 259
+    POSITION = 259,
+    IF = 260,
+    ELSE = 261,
+    ENDIF = 262
   };
 #endif
 
@@ -55,11 +58,11 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "projet.y" /* yacc.c:1909  */
+#line 20 "projet.y" /* yacc.c:1909  */
 
   double valeur;
 
-#line 63 "compilation/projet.y.hpp" /* yacc.c:1909  */
+#line 66 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -72,4 +75,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_COMPILATION_PROJET_Y_HPP_INCLUDED  */
+#endif /* !YY_YY_PROJET_Y_HPP_INCLUDED  */
