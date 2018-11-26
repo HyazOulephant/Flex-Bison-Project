@@ -5,27 +5,30 @@
 
 enum class IDs {
   Rien,
+  ConsoleEcho,
   Position,
   Si,
   FinSi,
-  Sinon
+  Sinon,
+  Repete,
+  FinRepete
 };
 
 class Instruction {
   public:
     // Constructeurs
     Instruction();
-    Instruction(IDs id, std::vector<int> parametres);
+    Instruction(IDs id, std::vector<double> parametres);
 
     //Accesseurs et mutateurs
     void setId(IDs id);
-    void setParametres(std::vector<int> parametres);
+    void setParametres(std::vector<double> parametres);
     IDs getId() const;
-    std::vector<int> getParametres() const;
+    std::vector<double> getParametres() const;
 
   private:
     IDs m_id;
-    std::vector<int> m_parametres;
+    std::vector<double> m_parametres;
 };
 
 #endif

@@ -46,10 +46,13 @@ extern int yydebug;
   enum yytokentype
   {
     NUMBER = 258,
-    POSITION = 259,
-    IF = 260,
-    ELSE = 261,
-    ENDIF = 262
+    IDENTIFIER = 259,
+    POSITION = 260,
+    IF = 261,
+    ELSE = 262,
+    ENDIF = 263,
+    REPEAT = 264,
+    ENDREPEAT = 265
   };
 #endif
 
@@ -58,11 +61,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "projet.y" /* yacc.c:1909  */
+#line 23 "projet.y" /* yacc.c:1909  */
 
   double valeur;
+  char nom[50];
 
-#line 66 "projet.y.hpp" /* yacc.c:1909  */
+#line 70 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

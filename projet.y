@@ -1,6 +1,8 @@
 %{
   #include <iostream>
   #include <vector>
+  #include <string>
+  #include <map>
   #include <SDL2/SDL.h>
 
   #include "instruction.h"
@@ -14,18 +16,24 @@
 
   std::vector<Instruction> pile = {};
 
+  std::map<std::string, double> constantes; // Les constantes s'initialisent au debut
 %}
 
 %union
 {
   double valeur;
+  char nom[50];
 }
 
 %token <valeur> NUMBER
+%token <nom> IDENTIFIER
+
 %token POSITION
 %token IF
 %token ELSE
 %token ENDIF
+%token REPEAT
+%token ENDREPEAT
 
 %type <valeur> expression
 
@@ -40,11 +48,20 @@ ligne : ligne instruction '\n'
 instruction : POSITION '(' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::Position, {$3,$5}));
               }
-            | expression  { std::cout << $1 << " bing" << std::endl; }
+            | expression  {
+                pile.push_back(Instruction (IDs::ConsoleEcho, {$1}));
+              }
             | IF expression {
                 pile.push_back(Instruction (IDs::Si, {$2}));
+              } ligne finInstructionSi
+            | REPEAT expression {
+                pile.push_back(Instruction (IDs::Repete, {$2}));
+              } ligne ENDREPEAT {
+                pile.push_back(Instruction (IDs::FinRepete, {}));
               }
-              ligne finInstructionSi
+            | IDENTIFIER '=' expression {
+                constantes[$1] = $3;
+              }
             |  /* Ligne vide*/
             ;
 
@@ -64,24 +81,32 @@ expression: expression '+' expression     { $$ = $1 + $3; }
           | expression '/' expression     { $$ = $1 * $3; }
           | '(' expression ')'            { $$ = $2; }
           | NUMBER                        { $$ = $1; }
+          | IDENTIFIER                    { $$ = constantes[$1]; }
           ;
 %%
 
 
 unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
   for(int i = iter; i < stack.size(); i++){
-    std::vector<int> params = stack[i].getParametres();
+    std::vector<double> params = stack[i].getParametres();
     IDs id = stack[i].getId();
     switch(id){
-      case IDs::Rien: // Ne fait rien... utile au deboquage
+      case IDs::Rien: { // Ne fait rien... utile au deboquage
         // std::cout << "ATTENTION Il n'y a rien ici!" << std::endl;
         break;
+      }
 
-      case IDs::Position: // Applique une nouvelle position
+      case IDs::ConsoleEcho: { // Affiche une donnee dans la console
+        std::cout << params[0] << std::endl;
+        break;
+      }
+
+      case IDs::Position: { // Applique une nouvelle position
         posx = params[0]; posy = params[1];
         break;
+      }
 
-      case IDs::Si: // Condition Si
+      case IDs::Si: { // Condition Si
         if(params[0]){
           i = execution(stack, i+1);
 
@@ -114,17 +139,34 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
           }
         }
         // Ici nous sommes a un "FinSi" donc nous passons simplement a l'instruction suivante
-        i++;
         break;
+      }
 
-      case IDs::FinSi: // Instruction Obligatoire apres un "Si" !
+      case IDs::FinSi: { // Instruction Obligatoire apres un "Si" !
         return i; // On retourne la position du "FinSi" et on revient au bloc d'instruction superieur
         break;
+      }
 
-      case IDs::Sinon: // Instruction Obligatoire apres un "Si" !
+      case IDs::Sinon: { // Instruction Obligatoire apres un "Si" !
         // Si nous tombons sur cette instruction alors c'est que nous sommes deja dans le bloc du "Si", auquel cas le bloc du sinon est evite
         return i; // On retourne la position du "Sinon" et le "Si" s'occupe de l'eviter
         break;
+      }
+
+      case IDs::Repete: { // Repetition d'instructions
+        int temp = i;
+        for(int j = 0; j < params[0]; j++){
+          i = temp;
+          i = execution(stack, i+1);
+        }
+        // Ici nous sommes a un "FinRepete" donc nous passons simplement a l'instruction suivante
+        break;
+      }
+
+      case IDs::FinRepete: { // Instruction Obligatoire apres un "Repete" !
+        return i; // On retourne la position du "FinRepete" et on revient au bloc d'instruction superieur
+        break;
+      }
     }
   }
 }

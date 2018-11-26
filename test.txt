@@ -1,5 +1,9 @@
-SI 0
-  POS((10+5)*6,40)
+hyahya = 0
+
+SI hyahya
+  REPETE 10
+    50
+  FINREPETE
 SINON
-  POS((10),40)
+  POS(10,40)
 FINSI

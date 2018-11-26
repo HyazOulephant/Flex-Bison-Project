@@ -66,6 +66,8 @@
 
   #include <iostream>
   #include <vector>
+  #include <string>
+  #include <map>
   #include <SDL2/SDL.h>
 
   #include "instruction.h"
@@ -79,8 +81,9 @@
 
   std::vector<Instruction> pile = {};
 
+  std::map<std::string, double> constantes; // Les constantes s'initialisent au debut
 
-#line 84 "projet.y.cpp" /* yacc.c:339  */
+#line 87 "projet.y.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -116,10 +119,13 @@ extern int yydebug;
   enum yytokentype
   {
     NUMBER = 258,
-    POSITION = 259,
-    IF = 260,
-    ELSE = 261,
-    ENDIF = 262
+    IDENTIFIER = 259,
+    POSITION = 260,
+    IF = 261,
+    ELSE = 262,
+    ENDIF = 263,
+    REPEAT = 264,
+    ENDREPEAT = 265
   };
 #endif
 
@@ -128,11 +134,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "projet.y" /* yacc.c:355  */
+#line 23 "projet.y" /* yacc.c:355  */
 
   double valeur;
+  char nom[50];
 
-#line 136 "projet.y.cpp" /* yacc.c:355  */
+#line 143 "projet.y.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -149,7 +156,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 153 "projet.y.cpp" /* yacc.c:358  */
+#line 160 "projet.y.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -391,21 +398,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   57
+#define YYLAST   80
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  16
+#define YYNTOKENS  20
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  7
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  17
+#define YYNRULES  21
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  34
+#define YYNSTATES  43
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   262
+#define YYMAXUTOK   265
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -415,12 +422,12 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      12,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      15,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      13,    15,    10,     8,    14,     9,     2,    11,     2,     2,
+      16,    18,    13,    11,    17,    12,     2,    14,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,    19,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -440,15 +447,16 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7
+       5,     6,     7,     8,     9,    10
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    36,    36,    37,    40,    43,    44,    44,    48,    51,
-      54,    54,    61,    62,    63,    64,    65,    66
+       0,    44,    44,    45,    48,    51,    54,    54,    57,    57,
+      62,    65,    68,    71,    71,    78,    79,    80,    81,    82,
+      83,    84
 };
 #endif
 
@@ -457,10 +465,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "NUMBER", "POSITION", "IF", "ELSE",
-  "ENDIF", "'+'", "'-'", "'*'", "'/'", "'\\n'", "'('", "','", "')'",
-  "$accept", "ligne", "instruction", "$@1", "finInstructionSi", "$@2",
-  "expression", YY_NULLPTR
+  "$end", "error", "$undefined", "NUMBER", "IDENTIFIER", "POSITION", "IF",
+  "ELSE", "ENDIF", "REPEAT", "ENDREPEAT", "'+'", "'-'", "'*'", "'/'",
+  "'\\n'", "'('", "','", "')'", "'='", "$accept", "ligne", "instruction",
+  "$@1", "$@2", "finInstructionSi", "$@3", "expression", YY_NULLPTR
 };
 #endif
 
@@ -469,15 +477,15 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261,   262,    43,    45,
-      42,    47,    10,    40,    44,    41
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,    43,    45,    42,    47,    10,    40,    44,    41,    61
 };
 # endif
 
-#define YYPACT_NINF -16
+#define YYPACT_NINF -22
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-16)))
+  (!!((Yystate) == (-22)))
 
 #define YYTABLE_NINF -1
 
@@ -488,10 +496,11 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -16,     2,   -16,   -16,    -1,    15,    15,     5,    46,    15,
-      46,    23,   -16,    15,    15,    15,    15,    39,   -16,   -16,
-       3,     3,   -16,   -16,    15,    17,    31,   -16,   -16,   -16,
-     -16,   -16,    22,   -16
+     -22,    17,   -22,   -22,    -8,     0,    25,    25,    25,     3,
+      -4,    25,    25,   -22,    -4,    -4,    47,   -22,    25,    25,
+      25,    25,    -4,    63,   -22,   -22,   -22,    18,    18,   -22,
+     -22,    25,    31,    39,    55,   -22,   -22,   -22,   -22,   -22,
+     -22,    48,   -22
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -499,22 +508,23 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     8,     1,    17,     0,     0,     0,     0,     5,     0,
-       6,     0,     2,     0,     0,     0,     0,     0,     3,    16,
-      12,    13,    14,    15,     0,     8,     0,    10,     9,     7,
-       4,     3,     8,    11
+       3,    11,     1,    20,    21,     0,     0,     0,     0,     0,
+       5,     0,     0,    21,     6,     8,     0,     2,     0,     0,
+       0,     0,    10,     0,     3,     3,    19,    15,    16,    17,
+      18,     0,    11,    11,     0,    13,    12,     7,     9,     4,
+       3,    11,    14
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -16,   -15,   -16,   -16,   -16,   -16,    -5
+     -22,   -21,   -22,   -22,   -22,   -22,   -22,    -6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     7,    18,    29,    31,     8
+      -1,     1,     9,    24,    25,    37,    40,    10
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -522,46 +532,55 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      10,    11,     2,    25,    17,     3,     4,     5,    20,    21,
-      22,    23,     9,    15,    16,     6,    32,    12,     3,    26,
-       3,     4,     5,    27,    28,     3,     4,     5,     6,    33,
-       6,    13,    14,    15,    16,     6,     0,     0,    19,    13,
-      14,    15,    16,     0,     0,     0,    30,    13,    14,    15,
-      16,     0,     0,    24,    13,    14,    15,    16
+      14,    15,    16,    32,    33,    22,    23,    18,    19,    20,
+      21,    11,    27,    28,    29,    30,    12,     2,    17,    41,
+       3,     4,     5,     6,     0,    34,     7,     0,     3,    13,
+       0,    20,    21,     8,     3,     4,     5,     6,    35,    36,
+       7,     8,     3,     4,     5,     6,     0,     8,     7,    38,
+       0,     3,     4,     5,     6,     8,    42,     7,    18,    19,
+      20,    21,     0,     0,     8,    26,    18,    19,    20,    21,
+       0,     0,     0,    39,    18,    19,    20,    21,     0,     0,
+      31
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     6,     0,    18,     9,     3,     4,     5,    13,    14,
-      15,    16,    13,    10,    11,    13,    31,    12,     3,    24,
-       3,     4,     5,     6,     7,     3,     4,     5,    13,     7,
-      13,     8,     9,    10,    11,    13,    -1,    -1,    15,     8,
-       9,    10,    11,    -1,    -1,    -1,    15,     8,     9,    10,
-      11,    -1,    -1,    14,     8,     9,    10,    11
+       6,     7,     8,    24,    25,    11,    12,    11,    12,    13,
+      14,    19,    18,    19,    20,    21,    16,     0,    15,    40,
+       3,     4,     5,     6,    -1,    31,     9,    -1,     3,     4,
+      -1,    13,    14,    16,     3,     4,     5,     6,     7,     8,
+       9,    16,     3,     4,     5,     6,    -1,    16,     9,    10,
+      -1,     3,     4,     5,     6,    16,     8,     9,    11,    12,
+      13,    14,    -1,    -1,    16,    18,    11,    12,    13,    14,
+      -1,    -1,    -1,    18,    11,    12,    13,    14,    -1,    -1,
+      17
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    17,     0,     3,     4,     5,    13,    18,    22,    13,
-      22,    22,    12,     8,     9,    10,    11,    22,    19,    15,
-      22,    22,    22,    22,    14,    17,    22,     6,     7,    20,
-      15,    21,    17,     7
+       0,    21,     0,     3,     4,     5,     6,     9,    16,    22,
+      27,    19,    16,     4,    27,    27,    27,    15,    11,    12,
+      13,    14,    27,    27,    23,    24,    18,    27,    27,    27,
+      27,    17,    21,    21,    27,     7,     8,    25,    10,    18,
+      26,    21,     8
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    16,    17,    17,    18,    18,    19,    18,    18,    20,
-      21,    20,    22,    22,    22,    22,    22,    22
+       0,    20,    21,    21,    22,    22,    23,    22,    24,    22,
+      22,    22,    25,    26,    25,    27,    27,    27,    27,    27,
+      27,    27
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     0,     6,     1,     0,     5,     0,     1,
-       0,     4,     3,     3,     3,     3,     3,     1
+       0,     2,     3,     0,     6,     1,     0,     5,     0,     5,
+       3,     0,     1,     0,     4,     3,     3,     3,     3,     3,
+       1,     1
 };
 
 
@@ -1238,89 +1257,121 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 40 "projet.y" /* yacc.c:1646  */
+#line 48 "projet.y" /* yacc.c:1646  */
     {
                 pile.push_back(Instruction (IDs::Position, {(yyvsp[-3].valeur),(yyvsp[-1].valeur)}));
               }
-#line 1246 "projet.y.cpp" /* yacc.c:1646  */
+#line 1265 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 43 "projet.y" /* yacc.c:1646  */
-    { std::cout << (yyvsp[0].valeur) << " bing" << std::endl; }
-#line 1252 "projet.y.cpp" /* yacc.c:1646  */
+#line 51 "projet.y" /* yacc.c:1646  */
+    {
+                pile.push_back(Instruction (IDs::ConsoleEcho, {(yyvsp[0].valeur)}));
+              }
+#line 1273 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 44 "projet.y" /* yacc.c:1646  */
+#line 54 "projet.y" /* yacc.c:1646  */
     {
                 pile.push_back(Instruction (IDs::Si, {(yyvsp[0].valeur)}));
               }
-#line 1260 "projet.y.cpp" /* yacc.c:1646  */
+#line 1281 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 8:
+#line 57 "projet.y" /* yacc.c:1646  */
+    {
+                pile.push_back(Instruction (IDs::Repete, {(yyvsp[0].valeur)}));
+              }
+#line 1289 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 51 "projet.y" /* yacc.c:1646  */
+#line 59 "projet.y" /* yacc.c:1646  */
     {
-                    pile.push_back(Instruction (IDs::FinSi, {}));
-                  }
-#line 1268 "projet.y.cpp" /* yacc.c:1646  */
+                pile.push_back(Instruction (IDs::FinRepete, {}));
+              }
+#line 1297 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 54 "projet.y" /* yacc.c:1646  */
+#line 62 "projet.y" /* yacc.c:1646  */
     {
-                    pile.push_back(Instruction (IDs::Sinon, {}));
-                  }
-#line 1276 "projet.y.cpp" /* yacc.c:1646  */
-    break;
-
-  case 11:
-#line 56 "projet.y" /* yacc.c:1646  */
-    {
-                    pile.push_back(Instruction (IDs::FinSi, {}));
-                  }
-#line 1284 "projet.y.cpp" /* yacc.c:1646  */
+                constantes[(yyvsp[-2].nom)] = (yyvsp[0].valeur);
+              }
+#line 1305 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 61 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) + (yyvsp[0].valeur); }
-#line 1290 "projet.y.cpp" /* yacc.c:1646  */
+#line 68 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::FinSi, {}));
+                  }
+#line 1313 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 62 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) - (yyvsp[0].valeur); }
-#line 1296 "projet.y.cpp" /* yacc.c:1646  */
+#line 71 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::Sinon, {}));
+                  }
+#line 1321 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 63 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
-#line 1302 "projet.y.cpp" /* yacc.c:1646  */
+#line 73 "projet.y" /* yacc.c:1646  */
+    {
+                    pile.push_back(Instruction (IDs::FinSi, {}));
+                  }
+#line 1329 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 64 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
-#line 1308 "projet.y.cpp" /* yacc.c:1646  */
+#line 78 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) + (yyvsp[0].valeur); }
+#line 1335 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 65 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-1].valeur); }
-#line 1314 "projet.y.cpp" /* yacc.c:1646  */
+#line 79 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) - (yyvsp[0].valeur); }
+#line 1341 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 66 "projet.y" /* yacc.c:1646  */
+#line 80 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+#line 1347 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 18:
+#line 81 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+#line 1353 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 19:
+#line 82 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = (yyvsp[-1].valeur); }
+#line 1359 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 20:
+#line 83 "projet.y" /* yacc.c:1646  */
     { (yyval.valeur) = (yyvsp[0].valeur); }
-#line 1320 "projet.y.cpp" /* yacc.c:1646  */
+#line 1365 "projet.y.cpp" /* yacc.c:1646  */
+    break;
+
+  case 21:
+#line 84 "projet.y" /* yacc.c:1646  */
+    { (yyval.valeur) = constantes[(yyvsp[0].nom)]; }
+#line 1371 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1324 "projet.y.cpp" /* yacc.c:1646  */
+#line 1375 "projet.y.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1548,24 +1599,31 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 68 "projet.y" /* yacc.c:1906  */
+#line 86 "projet.y" /* yacc.c:1906  */
 
 
 
 unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
   for(int i = iter; i < stack.size(); i++){
-    std::vector<int> params = stack[i].getParametres();
+    std::vector<double> params = stack[i].getParametres();
     IDs id = stack[i].getId();
     switch(id){
-      case IDs::Rien: // Ne fait rien... utile au deboquage
+      case IDs::Rien: { // Ne fait rien... utile au deboquage
         // std::cout << "ATTENTION Il n'y a rien ici!" << std::endl;
         break;
+      }
 
-      case IDs::Position: // Applique une nouvelle position
+      case IDs::ConsoleEcho: { // Affiche une donnee dans la console
+        std::cout << params[0] << std::endl;
+        break;
+      }
+
+      case IDs::Position: { // Applique une nouvelle position
         posx = params[0]; posy = params[1];
         break;
+      }
 
-      case IDs::Si: // Condition Si
+      case IDs::Si: { // Condition Si
         if(params[0]){
           i = execution(stack, i+1);
 
@@ -1598,17 +1656,34 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
           }
         }
         // Ici nous sommes a un "FinSi" donc nous passons simplement a l'instruction suivante
-        i++;
         break;
+      }
 
-      case IDs::FinSi: // Instruction Obligatoire apres un "Si" !
+      case IDs::FinSi: { // Instruction Obligatoire apres un "Si" !
         return i; // On retourne la position du "FinSi" et on revient au bloc d'instruction superieur
         break;
+      }
 
-      case IDs::Sinon: // Instruction Obligatoire apres un "Si" !
+      case IDs::Sinon: { // Instruction Obligatoire apres un "Si" !
         // Si nous tombons sur cette instruction alors c'est que nous sommes deja dans le bloc du "Si", auquel cas le bloc du sinon est evite
         return i; // On retourne la position du "Sinon" et le "Si" s'occupe de l'eviter
         break;
+      }
+
+      case IDs::Repete: { // Repetition d'instructions
+        int temp = i;
+        for(int j = 0; j < params[0]; j++){
+          i = temp;
+          i = execution(stack, i+1);
+        }
+        // Ici nous sommes a un "FinRepete" donc nous passons simplement a l'instruction suivante
+        break;
+      }
+
+      case IDs::FinRepete: { // Instruction Obligatoire apres un "Repete" !
+        return i; // On retourne la position du "FinRepete" et on revient au bloc d'instruction superieur
+        break;
+      }
     }
   }
 }
