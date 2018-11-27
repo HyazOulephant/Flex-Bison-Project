@@ -5,6 +5,7 @@
   #include <map>
   #include <SDL2/SDL.h>
 
+  #include "numerique.h"
   #include "instruction.h"
 
   extern FILE *yyin;
@@ -15,14 +16,17 @@
   int posy = 0;
 
   std::vector<Instruction> pile = {};
-
-  std::map<std::string, double> constantes; // Les constantes s'initialisent au debut
 %}
+
+%code requires {
+  #include "numerique.h"
+}
 
 %union
 {
   double valeur;
   char nom[50];
+  Numerique * expr;
 }
 
 %token <valeur> NUMBER
@@ -35,7 +39,7 @@
 %token REPEAT
 %token ENDREPEAT
 
-%type <valeur> expression
+%type <expr> expression
 
 %left '+' '-'     /* associativité à gauche */
 %left '*' '/'     /* associativité à gauche */
@@ -46,7 +50,7 @@ ligne : ligne instruction '\n'
       ;
 
 instruction : POSITION '(' expression ',' expression ')' {
-                pile.push_back(Instruction (IDs::Position, {$3,$5}));
+                pile.push_back(Instruction (IDs::Position, {$3 ,$5}));
               }
             | expression  {
                 pile.push_back(Instruction (IDs::ConsoleEcho, {$1}));
@@ -60,7 +64,7 @@ instruction : POSITION '(' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::FinRepete, {}));
               }
             | IDENTIFIER '=' expression {
-                constantes[$1] = $3;
+                pile.push_back(Instruction (IDs::VariableSet, {new Numerique($1) ,$3}));
               }
             |  /* Ligne vide*/
             ;
@@ -75,20 +79,20 @@ finInstructionSi: ENDIF {
                   }
                 ;
 
-expression: expression '+' expression     { $$ = $1 + $3; }
-          | expression '-' expression     { $$ = $1 - $3; }
-          | expression '*' expression     { $$ = $1 * $3; }
-          | expression '/' expression     { $$ = $1 * $3; }
+expression: expression '+' expression     { $$ = new Numerique($1, Operateurs::Plus, $3); }
+          | expression '-' expression     { $$ = new Numerique($1, Operateurs::Moins, $3); }
+          | expression '*' expression     { $$ = new Numerique($1, Operateurs::Fois, $3); }
+          | expression '/' expression     { $$ = new Numerique($1, Operateurs::Divise, $3); }
           | '(' expression ')'            { $$ = $2; }
-          | NUMBER                        { $$ = $1; }
-          | IDENTIFIER                    { $$ = constantes[$1]; }
+          | NUMBER                        { $$ = new Numerique($1); }
+          | IDENTIFIER                    { $$ = new Numerique($1); }
           ;
 %%
 
 
 unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
   for(int i = iter; i < stack.size(); i++){
-    std::vector<double> params = stack[i].getParametres();
+    std::vector<Numerique *> params = stack[i].getParametres();
     IDs id = stack[i].getId();
     switch(id){
       case IDs::Rien: { // Ne fait rien... utile au deboquage
@@ -97,17 +101,17 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
       }
 
       case IDs::ConsoleEcho: { // Affiche une donnee dans la console
-        std::cout << params[0] << std::endl;
+        std::cout << params[0]->getNum() << std::endl;
         break;
       }
 
       case IDs::Position: { // Applique une nouvelle position
-        posx = params[0]; posy = params[1];
+        posx = params[0]->getNum(); posy = params[1]->getNum();
         break;
       }
 
       case IDs::Si: { // Condition Si
-        if(params[0]){
+        if(params[0]->getNum()){
           i = execution(stack, i+1);
 
           if(stack[i].getId() == IDs::Sinon){ // Si nous avons un "Sinon", nous evitons son bloc d'instructions
@@ -155,7 +159,7 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::Repete: { // Repetition d'instructions
         int temp = i;
-        for(int j = 0; j < params[0]; j++){
+        for(int j = 0; j < params[0]->getNum(); j++){
           i = temp;
           i = execution(stack, i+1);
         }
@@ -165,6 +169,11 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::FinRepete: { // Instruction Obligatoire apres un "Repete" !
         return i; // On retourne la position du "FinRepete" et on revient au bloc d'instruction superieur
+        break;
+      }
+
+      case IDs::VariableSet: { // Assignation d'une valeur a une variable
+        variables[params[0]->getVarName()] = params[1]->getNum();
         break;
       }
     }

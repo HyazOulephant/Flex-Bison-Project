@@ -1,9 +1,14 @@
-hyahya = 0
+hyahya = 4
 
-SI hyahya
+ah = 4
+
+SI ah
   REPETE 10
-    50
+    hyahya = hyahya + 1
+    hyahya
   FINREPETE
 SINON
-  POS(10,40)
+  hyahya = 25
 FINSI
+
+hyahya

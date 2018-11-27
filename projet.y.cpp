@@ -70,6 +70,7 @@
   #include <map>
   #include <SDL2/SDL.h>
 
+  #include "numerique.h"
   #include "instruction.h"
 
   extern FILE *yyin;
@@ -81,9 +82,7 @@
 
   std::vector<Instruction> pile = {};
 
-  std::map<std::string, double> constantes; // Les constantes s'initialisent au debut
-
-#line 87 "projet.y.cpp" /* yacc.c:339  */
+#line 86 "projet.y.cpp" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -112,6 +111,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 21 "projet.y" /* yacc.c:355  */
+
+  #include "numerique.h"
+
+#line 120 "projet.y.cpp" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -134,12 +139,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "projet.y" /* yacc.c:355  */
+#line 26 "projet.y" /* yacc.c:355  */
 
   double valeur;
   char nom[50];
+  Numerique * expr;
 
-#line 143 "projet.y.cpp" /* yacc.c:355  */
+#line 149 "projet.y.cpp" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -156,7 +162,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 160 "projet.y.cpp" /* yacc.c:358  */
+#line 166 "projet.y.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -454,9 +460,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    45,    48,    51,    54,    54,    57,    57,
-      62,    65,    68,    71,    71,    78,    79,    80,    81,    82,
-      83,    84
+       0,    48,    48,    49,    52,    55,    58,    58,    61,    61,
+      66,    69,    72,    75,    75,    82,    83,    84,    85,    86,
+      87,    88
 };
 #endif
 
@@ -1257,121 +1263,121 @@ yyreduce:
   switch (yyn)
     {
         case 4:
-#line 48 "projet.y" /* yacc.c:1646  */
+#line 52 "projet.y" /* yacc.c:1646  */
     {
-                pile.push_back(Instruction (IDs::Position, {(yyvsp[-3].valeur),(yyvsp[-1].valeur)}));
+                pile.push_back(Instruction (IDs::Position, {(yyvsp[-3].expr) ,(yyvsp[-1].expr)}));
               }
-#line 1265 "projet.y.cpp" /* yacc.c:1646  */
+#line 1271 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 51 "projet.y" /* yacc.c:1646  */
+#line 55 "projet.y" /* yacc.c:1646  */
     {
-                pile.push_back(Instruction (IDs::ConsoleEcho, {(yyvsp[0].valeur)}));
+                pile.push_back(Instruction (IDs::ConsoleEcho, {(yyvsp[0].expr)}));
               }
-#line 1273 "projet.y.cpp" /* yacc.c:1646  */
+#line 1279 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 54 "projet.y" /* yacc.c:1646  */
+#line 58 "projet.y" /* yacc.c:1646  */
     {
-                pile.push_back(Instruction (IDs::Si, {(yyvsp[0].valeur)}));
+                pile.push_back(Instruction (IDs::Si, {(yyvsp[0].expr)}));
               }
-#line 1281 "projet.y.cpp" /* yacc.c:1646  */
+#line 1287 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 57 "projet.y" /* yacc.c:1646  */
+#line 61 "projet.y" /* yacc.c:1646  */
     {
-                pile.push_back(Instruction (IDs::Repete, {(yyvsp[0].valeur)}));
+                pile.push_back(Instruction (IDs::Repete, {(yyvsp[0].expr)}));
               }
-#line 1289 "projet.y.cpp" /* yacc.c:1646  */
+#line 1295 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 59 "projet.y" /* yacc.c:1646  */
+#line 63 "projet.y" /* yacc.c:1646  */
     {
                 pile.push_back(Instruction (IDs::FinRepete, {}));
               }
-#line 1297 "projet.y.cpp" /* yacc.c:1646  */
+#line 1303 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 62 "projet.y" /* yacc.c:1646  */
+#line 66 "projet.y" /* yacc.c:1646  */
     {
-                constantes[(yyvsp[-2].nom)] = (yyvsp[0].valeur);
+                pile.push_back(Instruction (IDs::VariableSet, {new Numerique((yyvsp[-2].nom)) ,(yyvsp[0].expr)}));
               }
-#line 1305 "projet.y.cpp" /* yacc.c:1646  */
+#line 1311 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 68 "projet.y" /* yacc.c:1646  */
+#line 72 "projet.y" /* yacc.c:1646  */
     {
                     pile.push_back(Instruction (IDs::FinSi, {}));
                   }
-#line 1313 "projet.y.cpp" /* yacc.c:1646  */
+#line 1319 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 71 "projet.y" /* yacc.c:1646  */
+#line 75 "projet.y" /* yacc.c:1646  */
     {
                     pile.push_back(Instruction (IDs::Sinon, {}));
                   }
-#line 1321 "projet.y.cpp" /* yacc.c:1646  */
+#line 1327 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 73 "projet.y" /* yacc.c:1646  */
+#line 77 "projet.y" /* yacc.c:1646  */
     {
                     pile.push_back(Instruction (IDs::FinSi, {}));
                   }
-#line 1329 "projet.y.cpp" /* yacc.c:1646  */
-    break;
-
-  case 15:
-#line 78 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) + (yyvsp[0].valeur); }
 #line 1335 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 16:
-#line 79 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) - (yyvsp[0].valeur); }
+  case 15:
+#line 82 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Plus, (yyvsp[0].expr)); }
 #line 1341 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 17:
-#line 80 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+  case 16:
+#line 83 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Moins, (yyvsp[0].expr)); }
 #line 1347 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 18:
-#line 81 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-2].valeur) * (yyvsp[0].valeur); }
+  case 17:
+#line 84 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Fois, (yyvsp[0].expr)); }
 #line 1353 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 19:
-#line 82 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[-1].valeur); }
+  case 18:
+#line 85 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Divise, (yyvsp[0].expr)); }
 #line 1359 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 20:
-#line 83 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = (yyvsp[0].valeur); }
+  case 19:
+#line 86 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = (yyvsp[-1].expr); }
 #line 1365 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
-  case 21:
-#line 84 "projet.y" /* yacc.c:1646  */
-    { (yyval.valeur) = constantes[(yyvsp[0].nom)]; }
+  case 20:
+#line 87 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[0].valeur)); }
 #line 1371 "projet.y.cpp" /* yacc.c:1646  */
     break;
 
+  case 21:
+#line 88 "projet.y" /* yacc.c:1646  */
+    { (yyval.expr) = new Numerique((yyvsp[0].nom)); }
+#line 1377 "projet.y.cpp" /* yacc.c:1646  */
+    break;
 
-#line 1375 "projet.y.cpp" /* yacc.c:1646  */
+
+#line 1381 "projet.y.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1599,13 +1605,13 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 86 "projet.y" /* yacc.c:1906  */
+#line 90 "projet.y" /* yacc.c:1906  */
 
 
 
 unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
   for(int i = iter; i < stack.size(); i++){
-    std::vector<double> params = stack[i].getParametres();
+    std::vector<Numerique *> params = stack[i].getParametres();
     IDs id = stack[i].getId();
     switch(id){
       case IDs::Rien: { // Ne fait rien... utile au deboquage
@@ -1614,17 +1620,17 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
       }
 
       case IDs::ConsoleEcho: { // Affiche une donnee dans la console
-        std::cout << params[0] << std::endl;
+        std::cout << params[0]->getNum() << std::endl;
         break;
       }
 
       case IDs::Position: { // Applique une nouvelle position
-        posx = params[0]; posy = params[1];
+        posx = params[0]->getNum(); posy = params[1]->getNum();
         break;
       }
 
       case IDs::Si: { // Condition Si
-        if(params[0]){
+        if(params[0]->getNum()){
           i = execution(stack, i+1);
 
           if(stack[i].getId() == IDs::Sinon){ // Si nous avons un "Sinon", nous evitons son bloc d'instructions
@@ -1672,7 +1678,7 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::Repete: { // Repetition d'instructions
         int temp = i;
-        for(int j = 0; j < params[0]; j++){
+        for(int j = 0; j < params[0]->getNum(); j++){
           i = temp;
           i = execution(stack, i+1);
         }
@@ -1682,6 +1688,11 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::FinRepete: { // Instruction Obligatoire apres un "Repete" !
         return i; // On retourne la position du "FinRepete" et on revient au bloc d'instruction superieur
+        break;
+      }
+
+      case IDs::VariableSet: { // Assignation d'une valeur a une variable
+        variables[params[0]->getVarName()] = params[1]->getNum();
         break;
       }
     }

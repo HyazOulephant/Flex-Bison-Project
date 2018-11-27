@@ -39,6 +39,12 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
+/* "%code requires" blocks.  */
+#line 21 "projet.y" /* yacc.c:1909  */
+
+  #include "numerique.h"
+
+#line 48 "projet.y.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -61,12 +67,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "projet.y" /* yacc.c:1909  */
+#line 26 "projet.y" /* yacc.c:1909  */
 
   double valeur;
   char nom[50];
+  Numerique * expr;
 
-#line 70 "projet.y.hpp" /* yacc.c:1909  */
+#line 77 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

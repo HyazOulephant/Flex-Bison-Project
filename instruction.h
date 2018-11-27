@@ -1,6 +1,7 @@
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
 
+#include "numerique.h"
 #include <vector>
 
 enum class IDs {
@@ -11,24 +12,25 @@ enum class IDs {
   FinSi,
   Sinon,
   Repete,
-  FinRepete
+  FinRepete,
+  VariableSet
 };
 
 class Instruction {
   public:
     // Constructeurs
     Instruction();
-    Instruction(IDs id, std::vector<double> parametres);
+    Instruction(IDs id, std::vector<Numerique *> parametres);
 
     //Accesseurs et mutateurs
     void setId(IDs id);
-    void setParametres(std::vector<double> parametres);
+    void setParametres(std::vector<Numerique *> parametres);
     IDs getId() const;
-    std::vector<double> getParametres() const;
+    std::vector<Numerique *> getParametres() const;
 
   private:
     IDs m_id;
-    std::vector<double> m_parametres;
+    std::vector<Numerique *> m_parametres;
 };
 
 #endif
