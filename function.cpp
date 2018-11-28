@@ -2,38 +2,28 @@
 #include <iostream>
 using namespace std;
 
-int x = 0;  //Position X
-int y = 0;  //Position Y
-int r = 0;  //Rouge
-int v = 0;  //Vert
-int b = 0;  //Bleu
-int inclinaison = 0;  //Inclinaison sur 360
+double x = 0;  //Position X
+double y = 0;  //Position Y
+double r = 0;  //Rouge
+double v = 0;  //Vert
+double b = 0;  //Bleu
+double inclinaison = 0;  //Inclinaison sur 360
 SDL_Renderer* renderer = NULL;
 
 
 
 void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
-  if ((R > -1) | (R < 256)) {
-    r = R;
-  }
-  if ((V > -1) | (V < 256)) {
-    v = V;
-  }
-  if ((B > -1) | (B < 256)) {
-    b = B;
-  }
-  else{cout << "Limite couleur depassee" << endl;}
+  r = R%256;  //Depassement
+  v = V%256;
+  b = B%256;
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
 }
 
 void incliner(int a){
-  if ((a <= 360)|(a >= 0)) {
-    inclinaison = a;
-  }
-  else{cout << "Inclinaison depassee" << endl;}
+  inclinaison += a%360;
 }
 
-void position(int X, int Y, int INCLINAISON = 0){    //Postion x et y
+void position(int X, int Y, int INCLINAISON = inclinaison){    //Postion x et y
   x = X;
   y = Y;
   incliner(INCLINAISON);
@@ -113,3 +103,4 @@ int main(int argc, char* argv[])
     SDL_Quit();
     return 0;
 }
+
