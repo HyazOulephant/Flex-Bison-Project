@@ -1,8 +1,8 @@
 hyahya = 4
 
-ah = 1
+ah = 2
 
-SI ah > 0
+SI ah > 0 + 1 + 1
   REPETE 10 + ah
     hyahya = hyahya + 1
     hyahya

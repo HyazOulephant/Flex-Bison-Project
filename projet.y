@@ -55,8 +55,8 @@
 
 %type <expr> expression
 
-%left '+' '-'     /* associativité à gauche */
-%left '*' '/'     /* associativité à gauche */
+%left OP_PLUS OP_MINUS     /* associativité à gauche */
+%left OP_MULTIPLY OP_DIVIDE     /* associativité à gauche */
 
 %%
 ligne : ligne instruction '\n'
@@ -104,7 +104,7 @@ expression: expression OP_PLUS expression           { $$ = new Numerique($1, Ope
           | expression OP_EQUAL expression          { $$ = new Numerique($1, Operateurs::Egal, $3); }
           | expression OP_LESSEREQUAL expression    { $$ = new Numerique($1, Operateurs::InferieurEgal, $3); }
           | expression OP_LESSER expression         { $$ = new Numerique($1, Operateurs::Inferieur, $3); }
-          | expression OP_DIFFERENT expression            { $$ = new Numerique($1, Operateurs::Different, $3); }
+          | expression OP_DIFFERENT expression      { $$ = new Numerique($1, Operateurs::Different, $3); }
           | '(' expression ')'            { $$ = $2; }
           | NUMBER                        { $$ = new Numerique($1); }
           | IDENTIFIER                    { $$ = new Numerique($1); }
