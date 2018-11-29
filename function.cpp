@@ -3,13 +3,14 @@
 #include <string>
 using namespace std;
 
-double x = 0;  //Position X
-double y = 0;  //Position Y
-double r = 0;  //Rouge
-double v = 0;  //Vert
-double b = 0;  //Bleu
-double inclinaison = 0;  //Inclinaison sur 360
+int x = 0;  //Position X
+int y = 0;  //Position Y
+int r = 0;  //Rouge
+int v = 0;  //Vert
+int b = 0;  //Bleu
+int inclinaison = 0;  //Inclinaison sur 360
 SDL_Renderer* renderer = NULL;
+SDL_Window* window = NULL;
 
 
 
@@ -22,6 +23,13 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
 
 void incliner(int a){
   inclinaison += a%360;
+}
+
+void taille_fenetre(int X, int Y){
+  SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
+  SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);
+  SDL_RenderClear(renderer);
+  SDL_RenderPresent(renderer);
 }
 
 void position(int X, int Y){    //Postion x et y
@@ -62,21 +70,12 @@ void ligne_par_coordonnes(int a,int b){
 
 
 
-
-
-
-
-
-
-
-
-
 int main(int argc, char* argv[]){
-  SDL_Window *Window;
-  SDL_CreateWindowAndRenderer(800,800, 0, &Window, &renderer);
 
-  couleur(0,0,0);
-  SDL_RenderClear(renderer);
+
+  couleur(0,255,255);
+  taille_fenetre(800,800);
+
   couleur(255,255,255);
   position(400,400);
   cout << x <<":"<< y << endl;
@@ -84,6 +83,7 @@ int main(int argc, char* argv[]){
   cout << x <<":"<< y << endl;
 
   SDL_RenderPresent(renderer);                                               //Apply Set_Color on line
+
   string huitre;
   cin >> huitre;
     return 0;
