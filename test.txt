@@ -1,9 +1,9 @@
 hyahya = 4
 
-ah = 4
+ah = 1
 
 SI ah
-  REPETE 10
+  REPETE 10 + ah
     hyahya = hyahya + 1
     hyahya
   FINREPETE
@@ -11,4 +11,5 @@ SINON
   hyahya = 25
 FINSI
 
+POS(100,100)
 hyahya
