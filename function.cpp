@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <string>
 using namespace std;
 
 double x = 0;  //Position X
@@ -23,11 +24,9 @@ void incliner(int a){
   inclinaison += a%360;
 }
 
-void position(int X, int Y, int INCLINAISON = inclinaison){    //Postion x et y
+void position(int X, int Y){    //Postion x et y
   x = X;
   y = Y;
-  incliner(INCLINAISON);
-
 }
 
 
@@ -37,19 +36,25 @@ void position(int X, int Y, int INCLINAISON = inclinaison){    //Postion x et y
                     ####################################
 */
 void droite(int a){
-  SDL_RenderDrawLine(renderer, x, y, a, y);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x+a, y);                          //Draw line from:to
+  x += a;
 }
 void gauche(int a){
-  SDL_RenderDrawLine(renderer, x, y, -a, y);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x-a, y);                          //Draw line from:to
+  x -= a;
 }
 void haut(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, a);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x, y-a);                          //Draw line from:to
+  y -= a;
 }
 void bas(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, -a);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x, y+a);                          //Draw line from:to
+  y += a;
 }
 void ligne_par_coordonnes(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, a, b);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x+a, y-b);                          //Draw line from:to
+  x += a;
+  y -= b;
 }
 
 
@@ -66,41 +71,21 @@ void ligne_par_coordonnes(int a,int b){
 
 
 
-int main(int argc, char* argv[])
-{
-    if (SDL_Init(SDL_INIT_VIDEO) == 0) {
-        SDL_Window* window = NULL;
+int main(int argc, char* argv[]){
+  SDL_Window *Window;
+  SDL_CreateWindowAndRenderer(800,800, 0, &Window, &renderer);
 
+  couleur(0,0,0);
+  SDL_RenderClear(renderer);
+  couleur(255,255,255);
+  position(400,400);
+  cout << x <<":"<< y << endl;
+  ligne_par_coordonnes(0,-100);
+  cout << x <<":"<< y << endl;
 
-        if (SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer) == 0) {
-            SDL_bool done = SDL_FALSE;
-
-            while (!done) {
-                SDL_Event event;
-
-                SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);               //Set_Color
-                SDL_RenderClear(renderer);                                                 //Apply Set_Color on font
-
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);         //Set_Color
-                SDL_RenderDrawLine(renderer, 100, 100, 480, 640);                          //Draw line from:to
-                SDL_RenderPresent(renderer);                                               //Apply Set_Color on line
-
-                while (SDL_PollEvent(&event)) {
-                    if (event.type == SDL_QUIT) {
-                        done = SDL_TRUE;
-                    }
-                }
-            }
-        }
-
-        if (renderer) {
-            SDL_DestroyRenderer(renderer);
-        }
-        if (window) {
-            SDL_DestroyWindow(window);
-        }
-    }
-    SDL_Quit();
+  SDL_RenderPresent(renderer);                                               //Apply Set_Color on line
+  string huitre;
+  cin >> huitre;
     return 0;
 }
 
