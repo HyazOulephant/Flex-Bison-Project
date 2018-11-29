@@ -68,3 +68,8 @@ void ligne_par_coordonnes(int a,int b){
   x += a;
   y += b;
 }
+void ligne_par_coordonnee_absolue(int a,int b){
+  SDL_RenderDrawLine(renderer, x, y, a, b);                          //Draw line from:to
+  x = a;
+  y = b;
+}
