@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 21 "projet.y" /* yacc.c:1909  */
+#line 22 "projet.y" /* yacc.c:1909  */
 
   #include "numerique.h"
 
@@ -53,12 +53,24 @@ extern int yydebug;
   {
     NUMBER = 258,
     IDENTIFIER = 259,
-    POSITION = 260,
-    IF = 261,
-    ELSE = 262,
-    ENDIF = 263,
-    REPEAT = 264,
-    ENDREPEAT = 265
+    OP_PLUS = 260,
+    OP_MINUS = 261,
+    OP_MULTIPLY = 262,
+    OP_DIVIDE = 263,
+    OP_OR = 264,
+    OP_AND = 265,
+    OP_GREATER = 266,
+    OP_GREATEREQUAL = 267,
+    OP_EQUAL = 268,
+    OP_LESSEREQUAL = 269,
+    OP_LESSER = 270,
+    OP_DIFFERENT = 271,
+    POSITION = 272,
+    IF = 273,
+    ELSE = 274,
+    ENDIF = 275,
+    REPEAT = 276,
+    ENDREPEAT = 277
   };
 #endif
 
@@ -67,13 +79,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 26 "projet.y" /* yacc.c:1909  */
+#line 27 "projet.y" /* yacc.c:1909  */
 
   double valeur;
   char nom[50];
   Numerique * expr;
 
-#line 77 "projet.y.hpp" /* yacc.c:1909  */
+#line 89 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -11,6 +11,19 @@ FAUX|Faux|faux  { yylval.valeur = 0; return NUMBER; }
 
 POSITION|Position|position|POS|Pos|pos  { return POSITION;  }
 
+\+                                { return OP_PLUS; }
+-                                 { return OP_MINUS; }
+\*                                { return OP_MULTIPLY; }
+\/                                { return OP_DIVIDE; }
+\|\|                              { return OP_OR; }
+\&\&                              { return OP_AND; }
+>                                 { return OP_GREATER; }
+>=                                { return OP_GREATEREQUAL; }
+==                                { return OP_EQUAL; }
+\<=                               { return OP_LESSEREQUAL; }
+\<                                { return OP_LESSER; }
+!=                                { return OP_DIFFERENT; }
+
 SI|Si|si                          { return IF; }
 SINON|Sinon|sinon                 { return ELSE;  }
 FINSI|Finsi|finsi                 { return ENDIF;  }

@@ -2,7 +2,7 @@ hyahya = 4
 
 ah = 1
 
-SI ah
+SI ah > 0
   REPETE 10 + ah
     hyahya = hyahya + 1
     hyahya
@@ -12,4 +12,5 @@ SINON
 FINSI
 
 POS(100,100)
+
 hyahya

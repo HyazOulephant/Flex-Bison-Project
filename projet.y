@@ -3,6 +3,7 @@
   #include <vector>
   #include <string>
   #include <map>
+  #include <math.h>
   #include <SDL2/SDL.h>
 
   #include "numerique.h"
@@ -31,6 +32,19 @@
 
 %token <valeur> NUMBER
 %token <nom> IDENTIFIER
+
+%token OP_PLUS
+%token OP_MINUS
+%token OP_MULTIPLY
+%token OP_DIVIDE
+%token OP_OR
+%token OP_AND
+%token OP_GREATER
+%token OP_GREATEREQUAL
+%token OP_EQUAL
+%token OP_LESSEREQUAL
+%token OP_LESSER
+%token OP_DIFFERENT
 
 %token POSITION
 %token IF
@@ -79,10 +93,18 @@ finInstructionSi: ENDIF {
                   }
                 ;
 
-expression: expression '+' expression     { $$ = new Numerique($1, Operateurs::Plus, $3); }
-          | expression '-' expression     { $$ = new Numerique($1, Operateurs::Moins, $3); }
-          | expression '*' expression     { $$ = new Numerique($1, Operateurs::Fois, $3); }
-          | expression '/' expression     { $$ = new Numerique($1, Operateurs::Divise, $3); }
+expression: expression OP_PLUS expression           { $$ = new Numerique($1, Operateurs::Plus, $3); }
+          | expression OP_MINUS expression          { $$ = new Numerique($1, Operateurs::Moins, $3); }
+          | expression OP_MULTIPLY expression       { $$ = new Numerique($1, Operateurs::Fois, $3); }
+          | expression OP_DIVIDE expression         { $$ = new Numerique($1, Operateurs::Divise, $3); }
+          | expression OP_OR expression             { $$ = new Numerique($1, Operateurs::Ou, $3); }
+          | expression OP_AND expression            { $$ = new Numerique($1, Operateurs::Et, $3); }
+          | expression OP_GREATER expression        { $$ = new Numerique($1, Operateurs::Superieur, $3); }
+          | expression OP_GREATEREQUAL expression   { $$ = new Numerique($1, Operateurs::SuperieurEgal, $3); }
+          | expression OP_EQUAL expression          { $$ = new Numerique($1, Operateurs::Egal, $3); }
+          | expression OP_LESSEREQUAL expression    { $$ = new Numerique($1, Operateurs::InferieurEgal, $3); }
+          | expression OP_LESSER expression         { $$ = new Numerique($1, Operateurs::Inferieur, $3); }
+          | expression OP_DIFFERENT expression            { $$ = new Numerique($1, Operateurs::Different, $3); }
           | '(' expression ')'            { $$ = $2; }
           | NUMBER                        { $$ = new Numerique($1); }
           | IDENTIFIER                    { $$ = new Numerique($1); }
@@ -201,7 +223,7 @@ int main(int argc, char **argv) {
 
   // Affichage de la fenetre
   SDL_RenderPresent(renderer);
-
+  std::cout << cos(M_PI) << std::endl;
   // On entre un caractere pour fermer la fenetre
   std::string a;
   std::cin >> a;
