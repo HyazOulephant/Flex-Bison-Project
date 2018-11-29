@@ -2,15 +2,15 @@ hyahya = 4
 
 ah = 2
 
-SI ah > 0 + 1 + 1
+POSITION(100,100)
+COULEUR(255,255,255)
+
+SI ah > 0
   REPETE 10 + ah
     hyahya = hyahya + 1
+    LIGNE(hyahya,(hyahya*hyahya)/10)
     hyahya
   FINREPETE
 SINON
-  hyahya = 25
+  42
 FINSI
-
-POS(100,100)
-
-hyahya

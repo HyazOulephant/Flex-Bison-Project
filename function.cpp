@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <string>
+#include "function.h"
 using namespace std;
 
 int x = 0;  //Position X
@@ -19,6 +20,7 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   v = V%256;
   b = B%256;
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
+  std::cout << r<<v<<b << std::endl;
 }
 
 void incliner(int a){
@@ -32,16 +34,18 @@ void taille_fenetre(int X, int Y){
   SDL_RenderPresent(renderer);
 }
 
+void afficher(){
+  SDL_RenderPresent(renderer);
+}
+
 void position(int X, int Y){    //Postion x et y
   x = X;
   y = Y;
 }
 
-
-
-/*                  ####################################
-                    #             DOITES               #
-                    ####################################
+/*                  #####################################
+                    #             DROITES               #
+                    #####################################
 */
 void droite(int a){
   SDL_RenderDrawLine(renderer, x, y, x+a, y);                          //Draw line from:to
@@ -60,32 +64,7 @@ void bas(int a){
   y += a;
 }
 void ligne_par_coordonnes(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, x+a, y-b);                          //Draw line from:to
+  SDL_RenderDrawLine(renderer, x, y, x+a, y+b);                          //Draw line from:to
   x += a;
-  y -= b;
+  y += b;
 }
-
-
-
-
-
-
-int main(int argc, char* argv[]){
-
-
-  couleur(0,255,255);
-  taille_fenetre(800,800);
-
-  couleur(255,255,255);
-  position(400,400);
-  cout << x <<":"<< y << endl;
-  ligne_par_coordonnes(0,-100);
-  cout << x <<":"<< y << endl;
-
-  SDL_RenderPresent(renderer);                                               //Apply Set_Color on line
-
-  string huitre;
-  cin >> huitre;
-    return 0;
-}
-

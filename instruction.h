@@ -5,15 +5,23 @@
 #include <vector>
 
 enum class IDs {
+  // Instructions de Grammaire
   Rien,
   ConsoleEcho,
-  Position,
   Si,
   FinSi,
   Sinon,
   Repete,
   FinRepete,
-  VariableSet
+  VariableSet,
+  // Instructions de la SDL
+  Couleur,
+  Position,
+  Droite,
+  Gauche,
+  Haut,
+  Bas,
+  LigneCoord
 };
 
 class Instruction {

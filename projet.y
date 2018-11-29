@@ -8,6 +8,7 @@
 
   #include "numerique.h"
   #include "instruction.h"
+  #include "function.h"
 
   extern FILE *yyin;
   extern int yylex ();
@@ -46,12 +47,19 @@
 %token OP_LESSER
 %token OP_DIFFERENT
 
-%token POSITION
 %token IF
 %token ELSE
 %token ENDIF
 %token REPEAT
 %token ENDREPEAT
+
+%token POSITION
+%token COLOUR
+%token RIGHT
+%token LEFT
+%token UP
+%token DOWN
+%token LINE
 
 %type <expr> expression
 
@@ -63,10 +71,7 @@ ligne : ligne instruction '\n'
       |    /* Epsilon */
       ;
 
-instruction : POSITION '(' expression ',' expression ')' {
-                pile.push_back(Instruction (IDs::Position, {$3 ,$5}));
-              }
-            | expression  {
+instruction : expression  {
                 pile.push_back(Instruction (IDs::ConsoleEcho, {$1}));
               }
             | IF expression {
@@ -78,9 +83,30 @@ instruction : POSITION '(' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::FinRepete, {}));
               }
             | IDENTIFIER '=' expression {
-                pile.push_back(Instruction (IDs::VariableSet, {new Numerique($1) ,$3}));
+                pile.push_back(Instruction (IDs::VariableSet, {new Numerique($1), $3}));
               }
             |  /* Ligne vide*/
+            | POSITION '(' expression ',' expression ')' {
+                pile.push_back(Instruction (IDs::Position, {$3, $5}));
+              }
+            | COLOUR '(' expression ',' expression ',' expression ')' {
+                pile.push_back(Instruction (IDs::Couleur, {$3, $5, $7}));
+              }
+            | RIGHT expression {
+                pile.push_back(Instruction (IDs::Droite, {$2}));
+              }
+            | LEFT expression {
+                pile.push_back(Instruction (IDs::Gauche, {$2}));
+              }
+            | UP expression {
+                pile.push_back(Instruction (IDs::Haut, {$2}));
+              }
+            | DOWN expression {
+                pile.push_back(Instruction (IDs::Bas, {$2}));
+              }
+            | LINE '(' expression ',' expression ')' {
+                pile.push_back(Instruction (IDs::LigneCoord, {$3, $5}));
+              }
             ;
 
 finInstructionSi: ENDIF {
@@ -124,11 +150,6 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::ConsoleEcho: { // Affiche une donnee dans la console
         std::cout << params[0]->getNum() << std::endl;
-        break;
-      }
-
-      case IDs::Position: { // Applique une nouvelle position
-        posx = params[0]->getNum(); posy = params[1]->getNum();
         break;
       }
 
@@ -198,15 +219,48 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
         variables[params[0]->getVarName()] = params[1]->getNum();
         break;
       }
+
+      // -------------------- Instructions de la SDL----------------------
+
+      case IDs::Couleur: { // Assignation d'une valeur a une variable
+        couleur(params[0]->getNum(), params[1]->getNum(), params[2]->getNum());
+        break;
+      }
+
+      case IDs::Position: { // Assignation d'une valeur a une variable
+        position(params[0]->getNum(), params[1]->getNum());
+        break;
+      }
+
+      case IDs::Droite: { // Assignation d'une valeur a une variable
+        droite(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Gauche: { // Assignation d'une valeur a une variable
+        gauche(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Haut: { // Assignation d'une valeur a une variable
+        haut(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Bas: { // Assignation d'une valeur a une variable
+        bas(params[0]->getNum());
+        break;
+      }
+
+      case IDs::LigneCoord: { // Assignation d'une valeur a une variable
+        ligne_par_coordonnes(params[0]->getNum(), params[1]->getNum());
+        break;
+      }
     }
   }
 }
 
 int main(int argc, char **argv) {
-  // Creation de la fenetre
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-  SDL_CreateWindowAndRenderer(800, 600, 0, &window, &renderer);
 
   // Grammaire
   if ( argc > 1 )
@@ -215,15 +269,14 @@ int main(int argc, char **argv) {
     yyin = stdin;
   yyparse();
 
+  // Creation de la fenetre
+  taille_fenetre(800,800);
+
   // On execute les instructions
   execution(pile, 0);
 
+  afficher();
 
-  SDL_RenderDrawPoint(renderer, posx, posy);
-
-  // Affichage de la fenetre
-  SDL_RenderPresent(renderer);
-  std::cout << cos(M_PI) << std::endl;
   // On entre un caractere pour fermer la fenetre
   std::string a;
   std::cin >> a;
