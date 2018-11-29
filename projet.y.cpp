@@ -1919,7 +1919,7 @@ int main(int argc, char **argv) {
   yyparse();
 
   // Creation de la fenetre
-  taille_fenetre(800,800);
+  taille_fenetre(1000,1000);
 
   // On execute les instructions
   execution(pile, 0);

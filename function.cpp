@@ -20,7 +20,6 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   v = V%256;
   b = B%256;
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
-  std::cout << r<<v<<b << std::endl;
 }
 
 void incliner(int a){
