@@ -11,7 +11,9 @@ int r = 0;  //Rouge
 int v = 0;  //Vert
 int b = 0;  //Bleu
 int ep = 1;  //Epaisseur
-int inclinaison = 0;  //Inclinaison sur 360
+int angle = 0;  //Inclinaison sur 360
+int ray = 0;    //Rayon
+const char *mot = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
 
@@ -26,7 +28,7 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
 }
 
 void incliner(int a){
-  inclinaison += a%360;
+  angle += a%360;
 }
 
 void taille_fenetre(int X, int Y){
@@ -46,6 +48,8 @@ void position(int X, int Y){    //Postion x et y
 }
 
 void epaisseur(int a){ep = a;}
+
+void rayon(int a){ray = a;}
 
 /*                  #####################################
                     #             DROITES               #
@@ -77,4 +81,31 @@ void ligne_par_coordonnee_absolue(int a,int b){
   thickLineRGBA (renderer, x, y, a, b, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   x = a;
   y = b;
+}
+
+/*                  #####################################
+                    #              FORMES               #
+                    #####################################
+*/
+
+void ecrire_mot(const char *a){
+  cout << a <<endl;
+  mot = a;
+  stringRGBA(renderer,x,y,mot,r,v,b,SDL_ALPHA_OPAQUE);
+}
+
+void rectangle_plein(int a, int b){
+  boxRGBA(renderer,x, y, x+a, y+b, r, v, b, SDL_ALPHA_OPAQUE);
+}
+
+void rectangle_plein_absolue(int a, int b){
+  boxRGBA(renderer,x, y, a, b, r, v, b, SDL_ALPHA_OPAQUE);
+}
+
+void rectangle_plein_arrondi(int a, int b){
+  roundedBoxRGBA (renderer, x, y, x+a, y+b, angle, r, v, b, SDL_ALPHA_OPAQUE);
+}
+
+void rectangle_plein_arrondi_absolue(int a, int b){
+  roundedBoxRGBA (renderer, x, y, a, b, angle, r, v, b, SDL_ALPHA_OPAQUE);
 }
