@@ -1,7 +1,8 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 #include <iostream>
 #include <string>
-#include "function.h"
+//#include "function.h"
 using namespace std;
 
 int x = 0;  //Position X
@@ -9,6 +10,7 @@ int y = 0;  //Position Y
 int r = 0;  //Rouge
 int v = 0;  //Vert
 int b = 0;  //Bleu
+int ep = 1;  //Epaisseur
 int inclinaison = 0;  //Inclinaison sur 360
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
@@ -20,6 +22,7 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   v = V%256;
   b = B%256;
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
+  std::cout << r<<v<<b << std::endl;
 }
 
 void incliner(int a){
@@ -42,33 +45,36 @@ void position(int X, int Y){    //Postion x et y
   y = Y;
 }
 
+void epaisseur(int a){ep = a;}
+
 /*                  #####################################
                     #             DROITES               #
                     #####################################
 */
 void droite(int a){
-  SDL_RenderDrawLine(renderer, x, y, x+a, y);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, x+a, y, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   x += a;
 }
 void gauche(int a){
-  SDL_RenderDrawLine(renderer, x, y, x-a, y);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, x-a, y, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   x -= a;
 }
 void haut(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, y-a);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, x, y-a, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   y -= a;
 }
 void bas(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, y+a);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, x, y+a, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   y += a;
 }
 void ligne_par_coordonnes(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, x+a, y+b);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, x+a, y+b, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   x += a;
   y += b;
 }
+
 void ligne_par_coordonnee_absolue(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, a, b);                          //Draw line from:to
+  thickLineRGBA (renderer, x, y, a, b, ep,  r, v,b, SDL_ALPHA_OPAQUE);   //Draw line from:to
   x = a;
   y = b;
 }
