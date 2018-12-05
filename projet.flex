@@ -30,6 +30,8 @@ FINREPETE|FinRepete|finrepete     { return ENDREPEAT; }
 
 POSITION|Position|position  { return POSITION;  }
 COULEUR|Couleur|couleur     { return COLOUR;  }
+INCLINE|Incline|incline     { return ROTATE;  }
+AVANCE|Avance|avance        { return FORWARD;  }
 DROITE|Droite|droite        { return RIGHT;  }
 GAUCHE|Gauche|gauche        { return LEFT;  }
 HAUT|Haut|haut              { return UP;  }

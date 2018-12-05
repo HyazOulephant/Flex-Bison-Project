@@ -1,15 +1,21 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <string>
+#include <math.h>
 #include "function.h"
 using namespace std;
 
 int x = 0;  //Position X
 int y = 0;  //Position Y
+
 int r = 0;  //Rouge
 int v = 0;  //Vert
 int b = 0;  //Bleu
-int inclinaison = 0;  //Inclinaison sur 360
+
+unsigned int delai = 10; // Temps entre les animations
+
+double inclinaison = 0;  //Inclinaison sur 360 degrees
+
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
 
@@ -37,10 +43,40 @@ void afficher(){
   SDL_RenderPresent(renderer);
 }
 
-void position(int X, int Y){    //Postion x et y
+void position(int X, int Y){    //Position x et y
   x = X;
   y = Y;
 }
+
+/*                  ########################################
+                    #             ANIMATIONS               #
+                    ########################################
+*/
+void pixelAvancer(unsigned int distance){
+  // Distances du Point d'arrive
+  float Fx = cos(inclinaison * M_PI / 180) * distance;
+  float Fy = 0 - sin(inclinaison * M_PI / 180) * distance;
+    std::cout <<inclinaison<< std::endl;
+
+  if(Fx*Fx > Fy*Fy){
+    for(int i = 0; i < Fx; i++){
+      SDL_RenderDrawPoint(renderer, x + i, y + i * (Fy/Fx));
+      SDL_Delay(delai);
+      afficher();
+    }
+  }else{
+    for(int i = 0; i < Fy; i++){
+      SDL_RenderDrawPoint(renderer, x + i * (Fx/Fy), y + i);
+      SDL_Delay(delai);
+      afficher();
+    }
+  }
+
+  x = x + Fx;
+  y = y + Fy;
+}
+
+
 
 /*                  #####################################
                     #             DROITES               #

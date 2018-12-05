@@ -72,11 +72,13 @@ extern int yydebug;
     ENDREPEAT = 276,
     POSITION = 277,
     COLOUR = 278,
-    RIGHT = 279,
-    LEFT = 280,
-    UP = 281,
-    DOWN = 282,
-    LINE = 283
+    ROTATE = 279,
+    FORWARD = 280,
+    RIGHT = 281,
+    LEFT = 282,
+    UP = 283,
+    DOWN = 284,
+    LINE = 285
   };
 #endif
 
@@ -91,7 +93,7 @@ union YYSTYPE
   char nom[50];
   Numerique * expr;
 
-#line 95 "projet.y.hpp" /* yacc.c:1909  */
+#line 97 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

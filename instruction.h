@@ -17,6 +17,8 @@ enum class IDs {
   // Instructions de la SDL
   Couleur,
   Position,
+  Inclinaison,
+  Avancer,
   Droite,
   Gauche,
   Haut,

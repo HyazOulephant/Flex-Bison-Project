@@ -4,6 +4,7 @@
 void couleur(int R,int V,int B);
 
 void incliner(int a);
+void pixelAvancer(unsigned int distance);
 
 void taille_fenetre(int X, int Y);
 void afficher();

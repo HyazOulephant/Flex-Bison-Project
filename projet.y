@@ -55,6 +55,8 @@
 
 %token POSITION
 %token COLOUR
+%token ROTATE
+%token FORWARD
 %token RIGHT
 %token LEFT
 %token UP
@@ -91,6 +93,12 @@ instruction : expression  {
               }
             | COLOUR '(' expression ',' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::Couleur, {$3, $5, $7}));
+              }
+            | ROTATE '(' expression ')' {
+                pile.push_back(Instruction (IDs::Inclinaison, {$3}));
+              }
+            | FORWARD '(' expression ')' {
+                pile.push_back(Instruction (IDs::Avancer, {$3}));
               }
             | RIGHT expression {
                 pile.push_back(Instruction (IDs::Droite, {$2}));
@@ -222,37 +230,47 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       // -------------------- Instructions de la SDL----------------------
 
-      case IDs::Couleur: { // Assignation d'une valeur a une variable
+      case IDs::Couleur: { // Changement de couleur de dessin
         couleur(params[0]->getNum(), params[1]->getNum(), params[2]->getNum());
         break;
       }
 
-      case IDs::Position: { // Assignation d'une valeur a une variable
+      case IDs::Position: { // Changement de la position de la tortue
         position(params[0]->getNum(), params[1]->getNum());
         break;
       }
 
-      case IDs::Droite: { // Assignation d'une valeur a une variable
+      case IDs::Inclinaison: { // Inclinaison de la tortue
+        incliner(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Avancer: { // La tortue avance selon son inclinaison
+        pixelAvancer(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Droite: { // La tortue va a droite, quelque soit son inclinaison
         droite(params[0]->getNum());
         break;
       }
 
-      case IDs::Gauche: { // Assignation d'une valeur a une variable
+      case IDs::Gauche: { // La tortue va a gauche, quelque soit son inclinaison
         gauche(params[0]->getNum());
         break;
       }
 
-      case IDs::Haut: { // Assignation d'une valeur a une variable
+      case IDs::Haut: { // La tortue va en haut, quelque soit son inclinaison
         haut(params[0]->getNum());
         break;
       }
 
-      case IDs::Bas: { // Assignation d'une valeur a une variable
+      case IDs::Bas: { // La tortue va en bas, quelque soit son inclinaison
         bas(params[0]->getNum());
         break;
       }
 
-      case IDs::LigneCoord: { // Assignation d'une valeur a une variable
+      case IDs::LigneCoord: { // La tortue avance dans 2 directions, quelque soit son inclinaison
         ligne_par_coordonnes(params[0]->getNum(), params[1]->getNum());
         break;
       }

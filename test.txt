@@ -1,11 +1,8 @@
 hyahya = 0
 
-POSITION(100,100)
+POSITION(300,300)
 COULEUR(255,255,255)
-
-REPETE 500
-  POSITION(hyahya,0)
-  COULEUR(hyahya,hyahya*2,hyahya*3)
-  LIGNE(hyahya*2,1000)
-  hyahya = hyahya + 1
+REPETE 5
+  INCLINE(72)
+  AVANCE(100)
 FINREPETE
