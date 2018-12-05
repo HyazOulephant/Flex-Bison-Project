@@ -59,14 +59,14 @@ void pixelAvancer(unsigned int distance){
     std::cout <<inclinaison<< std::endl;
 
   if(Fx*Fx > Fy*Fy){
-    for(int i = 0; i < Fx; i++){
-      SDL_RenderDrawPoint(renderer, x + i, y + i * (Fy/Fx));
+    for(int i = 0; i < fabs(Fx); i++){
+      SDL_RenderDrawPoint(renderer, x + i * fabs(Fx)/Fx, y + i * (fabs(Fy/Fx)) * fabs(Fy)/Fy);
       SDL_Delay(delai);
       afficher();
     }
   }else{
-    for(int i = 0; i < Fy; i++){
-      SDL_RenderDrawPoint(renderer, x + i * (Fx/Fy), y + i);
+    for(int i = 0; i < fabs(Fy); i++){
+      SDL_RenderDrawPoint(renderer, x + i * (fabs(Fx/Fy)) * fabs(Fx)/Fx, y + i * fabs(Fy)/Fy);
       SDL_Delay(delai);
       afficher();
     }
