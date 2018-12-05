@@ -5,8 +5,8 @@
 #include "function.h"
 using namespace std;
 
-int x = 0;  //Position X
-int y = 0;  //Position Y
+float x = 0;  //Position X
+float y = 0;  //Position Y
 
 int r = 0;  //Rouge
 int v = 0;  //Vert
@@ -15,6 +15,7 @@ int b = 0;  //Bleu
 unsigned int delai = 10; // Temps entre les animations
 
 double inclinaison = 0;  //Inclinaison sur 360 degrees
+int epaisseur = 5;  //Inclinaison sur 360 degrees
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
@@ -60,22 +61,37 @@ void pixelAvancer(unsigned int distance){
 
   if(Fx*Fx > Fy*Fy){
     for(int i = 0; i < fabs(Fx); i++){
-      SDL_RenderDrawPoint(renderer, x + i * fabs(Fx)/Fx, y + i * (fabs(Fy/Fx)) * fabs(Fy)/Fy);
+      circle(epaisseur);
       SDL_Delay(delai);
+
+      x = x + fabs(Fx)/Fx;
+      y = y + (fabs(Fy/Fx)) * fabs(Fy)/Fy;
       afficher();
     }
   }else{
     for(int i = 0; i < fabs(Fy); i++){
-      SDL_RenderDrawPoint(renderer, x + i * (fabs(Fx/Fy)) * fabs(Fx)/Fx, y + i * fabs(Fy)/Fy);
+      circle(epaisseur);
       SDL_Delay(delai);
+
+      x = x + (fabs(Fx/Fy)) * fabs(Fx)/Fx;
+      y = y + fabs(Fy)/Fy;
       afficher();
     }
   }
-
-  x = x + Fx;
-  y = y + Fy;
 }
 
+/*                  #####################################
+                    #              FORMES               #
+                    #####################################
+*/
+
+void circle(int r){
+  for(int i = 0; i < r; i++){
+    for(float th = 0; th < M_PI*2*r; th++){
+      SDL_RenderDrawPoint(renderer, x + cos(th/r) * i, y + sin(th/r) * i);
+    }
+  }
+}
 
 
 /*                  #####################################

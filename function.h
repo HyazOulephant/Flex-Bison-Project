@@ -11,6 +11,8 @@ void afficher();
 
 void position(int X, int Y);
 
+void circle(int r);
+
 void droite(int a);
 void gauche(int a);
 void haut(int a);
