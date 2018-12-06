@@ -12,10 +12,10 @@ int r = 0;  //Rouge
 int v = 0;  //Vert
 int b = 0;  //Bleu
 
-unsigned int delai = 10; // Temps entre les animations
+unsigned int delai = 5; // Temps entre les animations
 
-double inclinaison = 0;  //Inclinaison sur 360 degrees
-int epaisseur = 5;  //Inclinaison sur 360 degrees
+int inclinaison = 0;  //Inclinaison sur 360 degrees
+int epaisseur = 5;  //Rayon du trait
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
@@ -35,7 +35,7 @@ void incliner(int a){
 
 void taille_fenetre(int X, int Y){
   SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
-  SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);
+  couleur(255,255,255);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
 }
@@ -55,29 +55,35 @@ void position(int X, int Y){    //Position x et y
 */
 void pixelAvancer(unsigned int distance){
   // Distances du Point d'arrive
-  float Fx = cos(inclinaison * M_PI / 180) * distance;
-  float Fy = 0 - sin(inclinaison * M_PI / 180) * distance;
-    std::cout <<inclinaison<< std::endl;
+  float Fx = cos((float)inclinaison * M_PI / 180) * distance;
+  float Fy = 0 - sin((float)inclinaison * M_PI / 180) * distance;
 
-  if(Fx*Fx > Fy*Fy){
+  for(unsigned int i = 0; i < distance; i++){
+    circle(epaisseur, x + cos((float)inclinaison * M_PI / 180) * i, y - sin((float)inclinaison * M_PI / 180) * i);
+    std::cout << distance << " trist" << std::endl;
+    afficher();
+    SDL_Delay(delai);
+  }
+
+  /*
+  if(fabs(Fx) > fabs(Fy)){
     for(int i = 0; i < fabs(Fx); i++){
-      circle(epaisseur);
+      circle(epaisseur, x + i * fabs(Fx)/Fx, y + i * (fabs(Fy/Fx)) * fabs(Fy)/Fy);
       SDL_Delay(delai);
 
-      x = x + fabs(Fx)/Fx;
-      y = y + (fabs(Fy/Fx)) * fabs(Fy)/Fy;
       afficher();
     }
   }else{
     for(int i = 0; i < fabs(Fy); i++){
-      circle(epaisseur);
+      circle(epaisseur, x + i * (fabs(Fx/Fy)) * fabs(Fx)/Fx, y + i * fabs(Fy)/Fy);
       SDL_Delay(delai);
 
-      x = x + (fabs(Fx/Fy)) * fabs(Fx)/Fx;
-      y = y + fabs(Fy)/Fy;
       afficher();
     }
   }
+  */
+  x += Fx;
+  y += Fy;
 }
 
 /*                  #####################################
@@ -85,10 +91,10 @@ void pixelAvancer(unsigned int distance){
                     #####################################
 */
 
-void circle(int r){
+void circle(int r, float xi, float yi){
   for(int i = 0; i < r; i++){
     for(float th = 0; th < M_PI*2*r; th++){
-      SDL_RenderDrawPoint(renderer, x + cos(th/r) * i, y + sin(th/r) * i);
+      SDL_RenderDrawPoint(renderer, xi + cos(th/r) * i, yi + sin(th/r) * i);
     }
   }
 }

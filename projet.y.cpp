@@ -1972,8 +1972,6 @@ int main(int argc, char **argv) {
   // On execute les instructions
   execution(pile, 0);
 
-  afficher();
-
   // On entre un caractere pour fermer la fenetre
   std::string a;
   std::cin >> a;
