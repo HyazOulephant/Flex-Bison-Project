@@ -5,8 +5,8 @@
 #include "function.h"
 using namespace std;
 
-float x = 0;  //Position X
-float y = 0;  //Position Y
+double x = 0;  //Position X
+double y = 0;  //Position Y
 
 int r = 0;  //Rouge
 int v = 0;  //Vert
@@ -19,8 +19,9 @@ int epaisseur = 20;  //Rayon du trait
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
-
-
+SDL_Renderer *pRenderer = NULL;
+SDL_Surface* pSprite  = NULL;
+SDL_Texture* pTexture = NULL;
 
 void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   r = R%256;  //Depassement
@@ -34,10 +35,22 @@ void incliner(int a){
 }
 
 void taille_fenetre(int X, int Y){
-  SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
+  window = SDL_CreateWindow("Ma première application SDL2",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,1000,1000, SDL_WINDOW_SHOWN);
+  renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+
+  //SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
   couleur(255,255,255);
   SDL_RenderClear(renderer);
-  SDL_RenderPresent(renderer);
+
+  pSprite = SDL_LoadBMP("T.bmp");
+
+  pTexture = SDL_CreateTextureFromSurface(renderer,pSprite); // Préparation du sprite
+
+  SDL_Rect dest = { 640/4 - pSprite->w/4,480/4 - pSprite->h/4, pSprite->w/4, pSprite->h/4};
+  SDL_RenderCopy(renderer,pTexture,NULL,&dest); // Copie du sprite grâce au SDL_Renderer
+
+  SDL_RenderPresent(renderer); // Affichage
+  SDL_Delay(1000);
 }
 
 void afficher(){
@@ -68,12 +81,15 @@ void pixelAvancer(unsigned int distance){
 
   for(unsigned int i = 0; i < distance; i++){
     circle(epaisseur, x + cos((float)inclinaison * M_PI / 180) * i, y - sin((float)inclinaison * M_PI / 180) * i);
+    x += cos((float)inclinaison * M_PI / 180);
+    y -= sin((float)inclinaison * M_PI / 180);
     afficher();
+
     SDL_Delay(delai);
   }
+  SDL_Rect dest = { x,y, pSprite->w/4, pSprite->h/4};
+  SDL_RenderCopy(renderer,pTexture,NULL,&dest); // Copie du sprite grâce au SDL_Renderer
 
-  x += Fx;
-  y += Fy;
 }
 
 /*                  #####################################
