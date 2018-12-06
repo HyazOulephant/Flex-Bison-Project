@@ -33,6 +33,7 @@
 
 %token <valeur> NUMBER
 %token <nom> IDENTIFIER
+%token PI
 
 %token OP_PLUS
 %token OP_MINUS
@@ -46,6 +47,8 @@
 %token OP_LESSEREQUAL
 %token OP_LESSER
 %token OP_DIFFERENT
+%token SINUS
+%token COSINUS
 
 %token IF
 %token ELSE
@@ -62,6 +65,8 @@
 %token UP
 %token DOWN
 %token LINE
+%token WIDTH
+%token TIME
 
 %type <expr> expression
 
@@ -115,6 +120,12 @@ instruction : expression  {
             | LINE '(' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::LigneCoord, {$3, $5}));
               }
+            | WIDTH '(' expression ')' {
+                pile.push_back(Instruction (IDs::Epaisseur, {$3}));
+              }
+            | TIME '(' expression ')' {
+                pile.push_back(Instruction (IDs::Delai, {$3}));
+              }
             ;
 
 finInstructionSi: ENDIF {
@@ -139,7 +150,10 @@ expression: expression OP_PLUS expression           { $$ = new Numerique($1, Ope
           | expression OP_LESSEREQUAL expression    { $$ = new Numerique($1, Operateurs::InferieurEgal, $3); }
           | expression OP_LESSER expression         { $$ = new Numerique($1, Operateurs::Inferieur, $3); }
           | expression OP_DIFFERENT expression      { $$ = new Numerique($1, Operateurs::Different, $3); }
+          | SINUS '(' expression ')'                { $$ = new Numerique($3, Operateurs::Sinus, $3); }
+          | COSINUS '(' expression ')'              { $$ = new Numerique($3, Operateurs::Cosinus, $3); }
           | '(' expression ')'            { $$ = $2; }
+          | PI                            { $$ = new Numerique(M_PI); }
           | NUMBER                        { $$ = new Numerique($1); }
           | IDENTIFIER                    { $$ = new Numerique($1); }
           ;
@@ -272,6 +286,16 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::LigneCoord: { // La tortue avance dans 2 directions, quelque soit son inclinaison
         ligne_par_coordonnes(params[0]->getNum(), params[1]->getNum());
+        break;
+      }
+
+      case IDs::Epaisseur: { // On change le rayon du trait de dessin
+        rayonTrait(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Delai: { // Delai entre chaque dessin pour la vitesse d'animation
+        tempDelai(params[0]->getNum());
         break;
       }
     }

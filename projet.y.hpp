@@ -53,32 +53,37 @@ extern int yydebug;
   {
     NUMBER = 258,
     IDENTIFIER = 259,
-    OP_PLUS = 260,
-    OP_MINUS = 261,
-    OP_MULTIPLY = 262,
-    OP_DIVIDE = 263,
-    OP_OR = 264,
-    OP_AND = 265,
-    OP_GREATER = 266,
-    OP_GREATEREQUAL = 267,
-    OP_EQUAL = 268,
-    OP_LESSEREQUAL = 269,
-    OP_LESSER = 270,
-    OP_DIFFERENT = 271,
-    IF = 272,
-    ELSE = 273,
-    ENDIF = 274,
-    REPEAT = 275,
-    ENDREPEAT = 276,
-    POSITION = 277,
-    COLOUR = 278,
-    ROTATE = 279,
-    FORWARD = 280,
-    RIGHT = 281,
-    LEFT = 282,
-    UP = 283,
-    DOWN = 284,
-    LINE = 285
+    PI = 260,
+    OP_PLUS = 261,
+    OP_MINUS = 262,
+    OP_MULTIPLY = 263,
+    OP_DIVIDE = 264,
+    OP_OR = 265,
+    OP_AND = 266,
+    OP_GREATER = 267,
+    OP_GREATEREQUAL = 268,
+    OP_EQUAL = 269,
+    OP_LESSEREQUAL = 270,
+    OP_LESSER = 271,
+    OP_DIFFERENT = 272,
+    SINUS = 273,
+    COSINUS = 274,
+    IF = 275,
+    ELSE = 276,
+    ENDIF = 277,
+    REPEAT = 278,
+    ENDREPEAT = 279,
+    POSITION = 280,
+    COLOUR = 281,
+    ROTATE = 282,
+    FORWARD = 283,
+    RIGHT = 284,
+    LEFT = 285,
+    UP = 286,
+    DOWN = 287,
+    LINE = 288,
+    WIDTH = 289,
+    TIME = 290
   };
 #endif
 
@@ -93,7 +98,7 @@ union YYSTYPE
   char nom[50];
   Numerique * expr;
 
-#line 97 "projet.y.hpp" /* yacc.c:1909  */
+#line 102 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

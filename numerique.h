@@ -20,7 +20,9 @@ enum class Operateurs {
   Egal,
   InferieurEgal,
   Inferieur,
-  Different
+  Different,
+  Sinus,
+  Cosinus
 };
 
 class Numerique {

@@ -12,10 +12,10 @@ int r = 0;  //Rouge
 int v = 0;  //Vert
 int b = 0;  //Bleu
 
-unsigned int delai = 5; // Temps entre les animations
+unsigned int delai = 0; // Temps entre les animations
 
 int inclinaison = 0;  //Inclinaison sur 360 degrees
-int epaisseur = 5;  //Rayon du trait
+int epaisseur = 20;  //Rayon du trait
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
@@ -49,6 +49,14 @@ void position(int X, int Y){    //Position x et y
   y = Y;
 }
 
+void rayonTrait(int X){    // Epaisseur du trait
+  epaisseur = X;
+}
+
+void tempDelai(int X){    // Delai entre chaque pixel dessine
+  delai = X;
+}
+
 /*                  ########################################
                     #             ANIMATIONS               #
                     ########################################
@@ -60,28 +68,10 @@ void pixelAvancer(unsigned int distance){
 
   for(unsigned int i = 0; i < distance; i++){
     circle(epaisseur, x + cos((float)inclinaison * M_PI / 180) * i, y - sin((float)inclinaison * M_PI / 180) * i);
-    std::cout << distance << " trist" << std::endl;
     afficher();
     SDL_Delay(delai);
   }
 
-  /*
-  if(fabs(Fx) > fabs(Fy)){
-    for(int i = 0; i < fabs(Fx); i++){
-      circle(epaisseur, x + i * fabs(Fx)/Fx, y + i * (fabs(Fy/Fx)) * fabs(Fy)/Fy);
-      SDL_Delay(delai);
-
-      afficher();
-    }
-  }else{
-    for(int i = 0; i < fabs(Fy); i++){
-      circle(epaisseur, x + i * (fabs(Fx/Fy)) * fabs(Fx)/Fx, y + i * fabs(Fy)/Fy);
-      SDL_Delay(delai);
-
-      afficher();
-    }
-  }
-  */
   x += Fx;
   y += Fy;
 }
@@ -93,8 +83,8 @@ void pixelAvancer(unsigned int distance){
 
 void circle(int r, float xi, float yi){
   for(int i = 0; i < r; i++){
-    for(float th = 0; th < M_PI*2*r; th++){
-      SDL_RenderDrawPoint(renderer, xi + cos(th/r) * i, yi + sin(th/r) * i);
+    for(float th = 0; th < M_PI*2*i; th++){
+      SDL_RenderDrawPoint(renderer, xi + cos(th/i) * i, yi + sin(th/i) * i);
     }
   }
 }

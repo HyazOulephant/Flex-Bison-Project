@@ -1,10 +1,11 @@
 hyahya = 0
-POSITION(200,500)
-REPETE 5
-  REPETE 100
-    AVANCE(1)
-    COULEUR(hyahya,hyahya,0)
+POSITION(500,750)
+COULEUR(hyahya,hyahya*2,hyahya*3)
+
+  REPETE 360
+      EPAISSEUR(sin(pi * hyahya/25)*15 + 25)
+      AVANCE(4)
+      COULEUR(sin(pi * hyahya / 255)*128 + 128,sin(pi * 2 * hyahya / 255)*128 + 128,sin(pi * 3 * hyahya / 255)*128 + 128)
+        hyahya = hyahya+1
+    INCLINE(1)
   FINREPETE
-    hyahya = hyahya+50
-  INCLINE(72)
-FINREPETE

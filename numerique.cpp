@@ -1,4 +1,5 @@
 #include "numerique.h"
+#include <math.h>
 
 std::map<std::string, double> variables;
 
@@ -48,6 +49,12 @@ double Numerique::getNum() const{
       break;
       case Operateurs::Different:
         return this->m_valeurs[0]->getNum() != this->m_valeurs[1]->getNum();
+      break;
+      case Operateurs::Sinus:
+        return sin(this->m_valeurs[0]->getNum());
+      break;
+      case Operateurs::Cosinus:
+        return cos(this->m_valeurs[0]->getNum());
       break;
     }
   }

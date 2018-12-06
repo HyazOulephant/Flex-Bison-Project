@@ -11,6 +11,10 @@ void afficher();
 
 void position(int X, int Y);
 
+void rayonTrait(int X);    // Epaisseur du trait
+
+void tempDelai(int X);    // Delai entre chaque pixel dessine
+
 void circle(int r, float xi, float yi);
 
 void droite(int a);

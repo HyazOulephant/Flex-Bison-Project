@@ -23,7 +23,9 @@ enum class IDs {
   Gauche,
   Haut,
   Bas,
-  LigneCoord
+  LigneCoord,
+  Epaisseur,
+  Delai
 };
 
 class Instruction {

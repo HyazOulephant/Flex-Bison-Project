@@ -9,18 +9,22 @@
 VRAI|Vrai|vrai  { yylval.valeur = 1; return NUMBER; }
 FAUX|Faux|faux  { yylval.valeur = 0; return NUMBER; }
 
-\+                                { return OP_PLUS; }
--                                 { return OP_MINUS; }
-\*                                { return OP_MULTIPLY; }
-\/                                { return OP_DIVIDE; }
-\|\|                              { return OP_OR; }
-\&\&                              { return OP_AND; }
->                                 { return OP_GREATER; }
->=                                { return OP_GREATEREQUAL; }
-==                                { return OP_EQUAL; }
-\<=                               { return OP_LESSEREQUAL; }
-\<                                { return OP_LESSER; }
-!=                                { return OP_DIFFERENT; }
+PI|Pi|pi        { return PI; }
+
+\+                                  { return OP_PLUS; }
+-                                   { return OP_MINUS; }
+\*                                  { return OP_MULTIPLY; }
+\/                                  { return OP_DIVIDE; }
+\|\|                                { return OP_OR; }
+\&\&                                { return OP_AND; }
+>                                   { return OP_GREATER; }
+>=                                  { return OP_GREATEREQUAL; }
+==                                  { return OP_EQUAL; }
+\<=                                 { return OP_LESSEREQUAL; }
+\<                                  { return OP_LESSER; }
+!=                                  { return OP_DIFFERENT; }
+SIN|SINUS|Sin|Sinus|sin|sinus       { return SINUS; }
+COS|COSINUS|Cos|Cosinus|cos|cosinus { return COSINUS; }
 
 SI|Si|si                          { return IF; }
 SINON|Sinon|sinon                 { return ELSE;  }
@@ -28,15 +32,17 @@ FINSI|Finsi|finsi                 { return ENDIF;  }
 REPETE|Repete|repete              { return REPEAT;  }
 FINREPETE|FinRepete|finrepete     { return ENDREPEAT; }
 
-POSITION|Position|position  { return POSITION;  }
-COULEUR|Couleur|couleur     { return COLOUR;  }
-INCLINE|Incline|incline     { return ROTATE;  }
-AVANCE|Avance|avance        { return FORWARD;  }
-DROITE|Droite|droite        { return RIGHT;  }
-GAUCHE|Gauche|gauche        { return LEFT;  }
-HAUT|Haut|haut              { return UP;  }
-BAS|Bas|bas                 { return DOWN;  }
-LIGNE|Ligne|ligne           { return LINE;  }
+POSITION|Position|position    { return POSITION;  }
+COULEUR|Couleur|couleur       { return COLOUR;  }
+INCLINE|Incline|incline       { return ROTATE;  }
+AVANCE|Avance|avance          { return FORWARD;  }
+DROITE|Droite|droite          { return RIGHT;  }
+GAUCHE|Gauche|gauche          { return LEFT;  }
+HAUT|Haut|haut                { return UP;  }
+BAS|Bas|bas                   { return DOWN;  }
+LIGNE|Ligne|ligne             { return LINE;  }
+EPAISSEUR|Epaisseur|epaisseur { return WIDTH;  }
+DELAI|Delai|delai             { return TIME;  }
 
 
 [a-zA-Z_]+                        { strcpy(yylval.nom,yytext); return IDENTIFIER; }
