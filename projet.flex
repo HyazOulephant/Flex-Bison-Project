@@ -36,11 +36,6 @@ POSITION|Position|position    { return POSITION;  }
 COULEUR|Couleur|couleur       { return COLOUR;  }
 INCLINE|Incline|incline       { return ROTATE;  }
 AVANCE|Avance|avance          { return FORWARD;  }
-DROITE|Droite|droite          { return RIGHT;  }
-GAUCHE|Gauche|gauche          { return LEFT;  }
-HAUT|Haut|haut                { return UP;  }
-BAS|Bas|bas                   { return DOWN;  }
-LIGNE|Ligne|ligne             { return LINE;  }
 EPAISSEUR|Epaisseur|epaisseur { return WIDTH;  }
 DELAI|Delai|delai             { return TIME;  }
 

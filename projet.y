@@ -60,11 +60,6 @@
 %token COLOUR
 %token ROTATE
 %token FORWARD
-%token RIGHT
-%token LEFT
-%token UP
-%token DOWN
-%token LINE
 %token WIDTH
 %token TIME
 
@@ -104,21 +99,6 @@ instruction : expression  {
               }
             | FORWARD '(' expression ')' {
                 pile.push_back(Instruction (IDs::Avancer, {$3}));
-              }
-            | RIGHT expression {
-                pile.push_back(Instruction (IDs::Droite, {$2}));
-              }
-            | LEFT expression {
-                pile.push_back(Instruction (IDs::Gauche, {$2}));
-              }
-            | UP expression {
-                pile.push_back(Instruction (IDs::Haut, {$2}));
-              }
-            | DOWN expression {
-                pile.push_back(Instruction (IDs::Bas, {$2}));
-              }
-            | LINE '(' expression ',' expression ')' {
-                pile.push_back(Instruction (IDs::LigneCoord, {$3, $5}));
               }
             | WIDTH '(' expression ')' {
                 pile.push_back(Instruction (IDs::Epaisseur, {$3}));
@@ -261,31 +241,6 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::Avancer: { // La tortue avance selon son inclinaison
         pixelAvancer(params[0]->getNum());
-        break;
-      }
-
-      case IDs::Droite: { // La tortue va a droite, quelque soit son inclinaison
-        droite(params[0]->getNum());
-        break;
-      }
-
-      case IDs::Gauche: { // La tortue va a gauche, quelque soit son inclinaison
-        gauche(params[0]->getNum());
-        break;
-      }
-
-      case IDs::Haut: { // La tortue va en haut, quelque soit son inclinaison
-        haut(params[0]->getNum());
-        break;
-      }
-
-      case IDs::Bas: { // La tortue va en bas, quelque soit son inclinaison
-        bas(params[0]->getNum());
-        break;
-      }
-
-      case IDs::LigneCoord: { // La tortue avance dans 2 directions, quelque soit son inclinaison
-        ligne_par_coordonnes(params[0]->getNum(), params[1]->getNum());
         break;
       }
 

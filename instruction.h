@@ -19,11 +19,6 @@ enum class IDs {
   Position,
   Inclinaison,
   Avancer,
-  Droite,
-  Gauche,
-  Haut,
-  Bas,
-  LigneCoord,
   Epaisseur,
   Delai
 };

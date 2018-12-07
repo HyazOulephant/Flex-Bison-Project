@@ -5,6 +5,9 @@
 #include "function.h"
 using namespace std;
 
+unsigned int winWidth;
+unsigned int winHeight;
+
 double x = 0;  //Position X
 double y = 0;  //Position Y
 
@@ -14,14 +17,14 @@ int b = 0;  //Bleu
 
 unsigned int delai = 0; // Temps entre les animations
 
-int inclinaison = 0;  //Inclinaison sur 360 degrees
+double inclinaison = 0;  //Inclinaison sur 360 degrees
 int epaisseur = 20;  //Rayon du trait
 
 SDL_Renderer* renderer = NULL;
 SDL_Window* window = NULL;
-SDL_Renderer *pRenderer = NULL;
 SDL_Surface* pSprite  = NULL;
-SDL_Texture* pTexture = NULL;
+SDL_Texture* drawingTexture = NULL;
+SDL_Texture* turtleTexture = NULL;
 
 void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   r = R%256;  //Depassement
@@ -30,31 +33,42 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
 }
 
-void incliner(int a){
-  inclinaison += a%360;
+void incliner(double a){
+  inclinaison += a;
 }
 
 void taille_fenetre(int X, int Y){
-  window = SDL_CreateWindow("Ma première application SDL2",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,1000,1000, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow("Turtle Drawing SDL2",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,X,Y, SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+
+  pSprite = SDL_LoadBMP("nyan.bmp");
+  turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite); // Préparation du sprite
+
+  // Texture du dessin
+  drawingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, X, Y);
 
   //SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
   couleur(255,255,255);
+  SDL_SetRenderTarget(renderer, drawingTexture); // On dessine dans la zone de dessin
   SDL_RenderClear(renderer);
 
-  pSprite = SDL_LoadBMP("T.bmp");
-
-  pTexture = SDL_CreateTextureFromSurface(renderer,pSprite); // Préparation du sprite
-
-  SDL_Rect dest = { 640/4 - pSprite->w/4,480/4 - pSprite->h/4, pSprite->w/4, pSprite->h/4};
-  SDL_RenderCopy(renderer,pTexture,NULL,&dest); // Copie du sprite grâce au SDL_Renderer
-
-  SDL_RenderPresent(renderer); // Affichage
-  SDL_Delay(1000);
+  afficher();
 }
 
 void afficher(){
+  SDL_SetRenderTarget(renderer, NULL); // On dessine dans la fenetre
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);
+
+  SDL_Rect drawingR = { 0,0, 1000, 1000};
+  SDL_RenderCopy(renderer,drawingTexture,NULL,&drawingR); // On affiche la texture de la zone de dessin
+
+  SDL_Rect spriteR = { x - (pSprite->w * epaisseur)/512, y - (pSprite->w * epaisseur)/700, (pSprite->w * epaisseur)/256, (pSprite->h * epaisseur)/256};
+  SDL_RenderCopyEx(renderer,turtleTexture,NULL,&spriteR,-inclinaison,NULL,SDL_FLIP_NONE); // Copie du sprite grâce au SDL_Renderer
+
   SDL_RenderPresent(renderer);
+  SDL_SetRenderTarget(renderer, drawingTexture); // On dessine dans la zone de dessin
 }
 
 void position(int X, int Y){    //Position x et y
@@ -87,8 +101,6 @@ void pixelAvancer(unsigned int distance){
 
     SDL_Delay(delai);
   }
-  SDL_Rect dest = { x,y, pSprite->w/4, pSprite->h/4};
-  SDL_RenderCopy(renderer,pTexture,NULL,&dest); // Copie du sprite grâce au SDL_Renderer
 
 }
 
@@ -103,36 +115,4 @@ void circle(int r, float xi, float yi){
       SDL_RenderDrawPoint(renderer, xi + cos(th/i) * i, yi + sin(th/i) * i);
     }
   }
-}
-
-
-/*                  #####################################
-                    #             DROITES               #
-                    #####################################
-*/
-void droite(int a){
-  SDL_RenderDrawLine(renderer, x, y, x+a, y);                          //Draw line from:to
-  x += a;
-}
-void gauche(int a){
-  SDL_RenderDrawLine(renderer, x, y, x-a, y);                          //Draw line from:to
-  x -= a;
-}
-void haut(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, y-a);                          //Draw line from:to
-  y -= a;
-}
-void bas(int a){
-  SDL_RenderDrawLine(renderer, x, y, x, y+a);                          //Draw line from:to
-  y += a;
-}
-void ligne_par_coordonnes(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, x+a, y+b);                          //Draw line from:to
-  x += a;
-  y += b;
-}
-void ligne_par_coordonnee_absolue(int a,int b){
-  SDL_RenderDrawLine(renderer, x, y, a, b);                          //Draw line from:to
-  x = a;
-  y = b;
 }

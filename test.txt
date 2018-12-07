@@ -1,13 +1,12 @@
-hyahya = 0
+i = 0
 POSITION(500,750)
-COULEUR(hyahya,hyahya*2,hyahya*3)
 
   REPETE 360
     REPETE 5
-      EPAISSEUR(sin(pi * hyahya/100)*15 + 25)
+      EPAISSEUR(sin(pi * i/100)*15 + 25)
       AVANCE(1)
-      COULEUR(sin(pi * hyahya / 255)*128 + 128,sin(pi * 2 * hyahya / 255)*128 + 128,sin(pi * 3 * hyahya / 255)*128 + 128)
-      hyahya = hyahya+1
+      COULEUR(sin(pi * i / 255)*128 + 128,sin(pi * 2 * i / 255)*128 + 128,sin(pi * 3 * i / 255)*128 + 128)
+      i = i+1
     FINREPETE
     INCLINE(1)
   FINREPETE
