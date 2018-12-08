@@ -1,5 +1,6 @@
 %{
   #include <iostream>
+  #include <time.h>
   #include <vector>
   #include <string>
   #include <map>
@@ -33,6 +34,10 @@
 
 %token <valeur> NUMBER
 %token <nom> IDENTIFIER
+%token PI
+
+%token COMMENT
+%token BIGCOMMENT
 
 %token OP_PLUS
 %token OP_MINUS
@@ -46,20 +51,26 @@
 %token OP_LESSEREQUAL
 %token OP_LESSER
 %token OP_DIFFERENT
+%token SINUS
+%token COSINUS
 
 %token IF
 %token ELSE
 %token ENDIF
 %token REPEAT
 %token ENDREPEAT
+%token WHILE
+%token ENDWHILE
 
 %token POSITION
+%token TURTLE
 %token COLOUR
-%token RIGHT
-%token LEFT
-%token UP
-%token DOWN
-%token LINE
+%token ROTATE
+%token FORWARD
+%token WIDTH
+%token TIME
+%token WAIT
+%token FRAMESKIP
 
 %type <expr> expression
 
@@ -68,6 +79,8 @@
 
 %%
 ligne : ligne instruction '\n'
+      | ligne instruction COMMENT '\n'
+      | ligne instruction BIGCOMMENT '\n'
       |    /* Epsilon */
       ;
 
@@ -82,6 +95,11 @@ instruction : expression  {
               } ligne ENDREPEAT {
                 pile.push_back(Instruction (IDs::FinRepete, {}));
               }
+            | WHILE expression {
+                pile.push_back(Instruction (IDs::TantQue, {$2}));
+              } ligne ENDWHILE {
+                pile.push_back(Instruction (IDs::FinTantQue, {}));
+              }
             | IDENTIFIER '=' expression {
                 pile.push_back(Instruction (IDs::VariableSet, {new Numerique($1), $3}));
               }
@@ -89,23 +107,32 @@ instruction : expression  {
             | POSITION '(' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::Position, {$3, $5}));
               }
+            | TURTLE expression {
+                pile.push_back(Instruction (IDs::TortueActivation, {$2}));
+              }
+            | TURTLE '=' expression {
+                pile.push_back(Instruction (IDs::TortueImage, {$3}));
+              }
             | COLOUR '(' expression ',' expression ',' expression ')' {
                 pile.push_back(Instruction (IDs::Couleur, {$3, $5, $7}));
               }
-            | RIGHT expression {
-                pile.push_back(Instruction (IDs::Droite, {$2}));
+            | ROTATE expression {
+                pile.push_back(Instruction (IDs::Inclinaison, {$2}));
               }
-            | LEFT expression {
-                pile.push_back(Instruction (IDs::Gauche, {$2}));
+            | FORWARD expression {
+                pile.push_back(Instruction (IDs::Avancer, {$2}));
               }
-            | UP expression {
-                pile.push_back(Instruction (IDs::Haut, {$2}));
+            | WIDTH expression {
+                pile.push_back(Instruction (IDs::Epaisseur, {$2}));
               }
-            | DOWN expression {
-                pile.push_back(Instruction (IDs::Bas, {$2}));
+            | TIME expression {
+                pile.push_back(Instruction (IDs::Delai, {$2}));
               }
-            | LINE '(' expression ',' expression ')' {
-                pile.push_back(Instruction (IDs::LigneCoord, {$3, $5}));
+            | WAIT expression {
+                pile.push_back(Instruction (IDs::Attendre, {$2}));
+              }
+            | FRAMESKIP expression {
+                pile.push_back(Instruction (IDs::SautImage, {$2}));
               }
             ;
 
@@ -131,7 +158,10 @@ expression: expression OP_PLUS expression           { $$ = new Numerique($1, Ope
           | expression OP_LESSEREQUAL expression    { $$ = new Numerique($1, Operateurs::InferieurEgal, $3); }
           | expression OP_LESSER expression         { $$ = new Numerique($1, Operateurs::Inferieur, $3); }
           | expression OP_DIFFERENT expression      { $$ = new Numerique($1, Operateurs::Different, $3); }
+          | SINUS '(' expression ')'                { $$ = new Numerique($3, Operateurs::Sinus, NULL); }
+          | COSINUS '(' expression ')'              { $$ = new Numerique($3, Operateurs::Cosinus, NULL); }
           | '(' expression ')'            { $$ = $2; }
+          | PI                            { $$ = new Numerique(M_PI); }
           | NUMBER                        { $$ = new Numerique($1); }
           | IDENTIFIER                    { $$ = new Numerique($1); }
           ;
@@ -140,6 +170,7 @@ expression: expression OP_PLUS expression           { $$ = new Numerique($1, Ope
 
 unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Programme d'execution finale
   for(int i = iter; i < stack.size(); i++){
+
     std::vector<Numerique *> params = stack[i].getParametres();
     IDs id = stack[i].getId();
     switch(id){
@@ -215,6 +246,23 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
         break;
       }
 
+      case IDs::TantQue: { // Repetition d'instructions tant que X
+        int temp = i;
+        double tempVerif = params[0]->getNum();
+        while(tempVerif){
+          i = temp;
+          i = execution(stack, i+1);
+          tempVerif = params[0]->getNum();
+        }
+        // Ici nous sommes a un "FinTantQue" donc nous passons simplement a l'instruction suivante
+        break;
+      }
+
+      case IDs::FinTantQue: { // Instruction Obligatoire apres un "TantQue" !
+        return i; // On retourne la position du "FinTantQue" et on revient au bloc d'instruction superieur
+        break;
+      }
+
       case IDs::VariableSet: { // Assignation d'une valeur a une variable
         variables[params[0]->getVarName()] = params[1]->getNum();
         break;
@@ -222,38 +270,52 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       // -------------------- Instructions de la SDL----------------------
 
-      case IDs::Couleur: { // Assignation d'une valeur a une variable
+      case IDs::Couleur: { // Changement de couleur de dessin
         couleur(params[0]->getNum(), params[1]->getNum(), params[2]->getNum());
         break;
       }
+      case IDs::TortueImage: { // Changement de la position de la tortue
+        imageTortue(params[0]->getNum());
+        break;
+      }
 
-      case IDs::Position: { // Assignation d'une valeur a une variable
+      case IDs::TortueActivation: { // Changement de la position de la tortue
+        activationTortue(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Position: { // Changement de la position de la tortue
         position(params[0]->getNum(), params[1]->getNum());
         break;
       }
 
-      case IDs::Droite: { // Assignation d'une valeur a une variable
-        droite(params[0]->getNum());
+      case IDs::Inclinaison: { // Inclinaison de la tortue
+        incliner(params[0]->getNum());
         break;
       }
 
-      case IDs::Gauche: { // Assignation d'une valeur a une variable
-        gauche(params[0]->getNum());
+      case IDs::Avancer: { // La tortue avance selon son inclinaison
+        pixelAvancer(params[0]->getNum());
         break;
       }
 
-      case IDs::Haut: { // Assignation d'une valeur a une variable
-        haut(params[0]->getNum());
+      case IDs::Epaisseur: { // On change le rayon du trait de dessin
+        rayonTrait(params[0]->getNum());
         break;
       }
 
-      case IDs::Bas: { // Assignation d'une valeur a une variable
-        bas(params[0]->getNum());
+      case IDs::Delai: { // Delai entre chaque dessin pour la vitesse d'animation
+        tempDelai(params[0]->getNum());
         break;
       }
 
-      case IDs::LigneCoord: { // Assignation d'une valeur a une variable
-        ligne_par_coordonnes(params[0]->getNum(), params[1]->getNum());
+      case IDs::Attendre: { // Delai entre chaque dessin pour la vitesse d'animation
+        SDL_Delay(params[0]->getNum());
+        break;
+      }
+
+      case IDs::SautImage: { // Delai entre chaque dessin pour la vitesse d'animation
+        setFrameSkip(params[0]->getNum());
         break;
       }
     }
@@ -275,7 +337,10 @@ int main(int argc, char **argv) {
   // On execute les instructions
   execution(pile, 0);
 
+  // On affiche l'etat final (au cas ou nous aurions saute cette frame)
+  setFrameSkip(0);
   afficher();
+
 
   // On entre un caractere pour fermer la fenetre
   std::string a;

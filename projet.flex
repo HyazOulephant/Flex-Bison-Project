@@ -6,35 +6,46 @@
 %%
 [0-9]+(\.[0-9]*)?([Ee][0-9]+)?  { yylval.valeur = atof(yytext); return NUMBER;  }
 
-VRAI|Vrai|vrai  { yylval.valeur = 1; return NUMBER; }
-FAUX|Faux|faux  { yylval.valeur = 0; return NUMBER; }
+VRAI|Vrai|vrai|OUI|Oui|oui    { yylval.valeur = 1; return NUMBER; }
+FAUX|Faux|faux|NON|Non|non    { yylval.valeur = 0; return NUMBER; }
 
-\+                                { return OP_PLUS; }
--                                 { return OP_MINUS; }
-\*                                { return OP_MULTIPLY; }
-\/                                { return OP_DIVIDE; }
-\|\|                              { return OP_OR; }
-\&\&                              { return OP_AND; }
->                                 { return OP_GREATER; }
->=                                { return OP_GREATEREQUAL; }
-==                                { return OP_EQUAL; }
-\<=                               { return OP_LESSEREQUAL; }
-\<                                { return OP_LESSER; }
-!=                                { return OP_DIFFERENT; }
+PI|Pi|pi        { return PI; }
 
-SI|Si|si                          { return IF; }
-SINON|Sinon|sinon                 { return ELSE;  }
-FINSI|Finsi|finsi                 { return ENDIF;  }
-REPETE|Repete|repete              { return REPEAT;  }
-FINREPETE|FinRepete|finrepete     { return ENDREPEAT; }
+\/\/[^\n]*                          { return COMMENT; }
+\/\*(.|\n)*\*\/                   { std::cout<<"ret"<<std::endl;return BIGCOMMENT; }
 
-POSITION|Position|position  { return POSITION;  }
-COULEUR|Couleur|couleur     { return COLOUR;  }
-DROITE|Droite|droite        { return RIGHT;  }
-GAUCHE|Gauche|gauche        { return LEFT;  }
-HAUT|Haut|haut              { return UP;  }
-BAS|Bas|bas                 { return DOWN;  }
-LIGNE|Ligne|ligne           { return LINE;  }
+\+                                  { return OP_PLUS; }
+-                                   { return OP_MINUS; }
+\*                                  { return OP_MULTIPLY; }
+\/                                  { return OP_DIVIDE; }
+\|\|                                { return OP_OR; }
+\&\&                                { return OP_AND; }
+>                                   { return OP_GREATER; }
+>=                                  { return OP_GREATEREQUAL; }
+==                                  { return OP_EQUAL; }
+\<=                                 { return OP_LESSEREQUAL; }
+\<                                  { return OP_LESSER; }
+!=                                  { return OP_DIFFERENT; }
+SIN|SINUS|Sin|Sinus|sin|sinus       { return SINUS; }
+COS|COSINUS|Cos|Cosinus|cos|cosinus { return COSINUS; }
+
+SI|Si|si                              { return IF; }
+SINON|Sinon|sinon                     { return ELSE;  }
+FINSI|Finsi|finsi                     { return ENDIF;  }
+REPETE|Repete|repete                  { return REPEAT;  }
+FINREPETE|FinRepete|finrepete         { return ENDREPEAT; }
+TANTQUE|TantQue|Tantque|tantque       { return WHILE;  }
+FINTANTQUE|FinTantQue|Tantque|tantque { return ENDWHILE; }
+
+POSITION|Position|position        { return POSITION;  }
+TORTUE|Tortue|tortue              { return TURTLE;  }
+COULEUR|Couleur|couleur           { return COLOUR;  }
+INCLINE|Incline|incline           { return ROTATE;  }
+AVANCE|Avance|avance              { return FORWARD;  }
+EPAISSEUR|Epaisseur|epaisseur     { return WIDTH;  }
+DELAI|Delai|delai                 { return TIME;  }
+ATTENDRE|Attendre|attendre        { return WAIT;  }
+SAUTIMAGE|SautImage|Sautimage|sautimage|SAUT|Saut|saut { return FRAMESKIP;  }
 
 
 [a-zA-Z_]+                        { strcpy(yylval.nom,yytext); return IDENTIFIER; }

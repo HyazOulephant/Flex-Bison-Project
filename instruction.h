@@ -13,15 +13,20 @@ enum class IDs {
   Sinon,
   Repete,
   FinRepete,
+  TantQue,
+  FinTantQue,
   VariableSet,
   // Instructions de la SDL
   Couleur,
+  TortueImage,
+  TortueActivation,
   Position,
-  Droite,
-  Gauche,
-  Haut,
-  Bas,
-  LigneCoord
+  Inclinaison,
+  Avancer,
+  Epaisseur,
+  Delai,
+  Attendre,
+  SautImage
 };
 
 class Instruction {

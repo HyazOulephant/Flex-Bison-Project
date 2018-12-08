@@ -1,11 +1,21 @@
-hyahya = 0
+i = 0
+POSITION(500,750)
+SAUT(5)
+TORTUE = 1
 
-POSITION(100,100)
-COULEUR(255,255,255)
-
-REPETE 500
-  POSITION(hyahya,0)
-  COULEUR(hyahya,hyahya*2,hyahya*3)
-  LIGNE(hyahya*2,1000)
-  hyahya = hyahya + 1
+REPETE 360
+  REPETE 5
+    EPAISSEUR(sin(pi * i/100)*15 + 25)
+    AVANCE(1)
+    COULEUR(sin(pi * i / 255)*128 + 128,sin(pi * 2 * i / 255)*128 + 128,sin(pi * 3 * i / 255)*128 + 128)
+    i = i+1
+  FINREPETE
+  INCLINE(1)
 FINREPETE
+
+j = 0
+TANTQUE(j < 180)
+  j = j + 1
+  INCLINE(2)
+  EPAISSEUR(j)
+FINTANTQUE

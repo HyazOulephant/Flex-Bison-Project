@@ -40,7 +40,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 23 "projet.y" /* yacc.c:1909  */
+#line 24 "projet.y" /* yacc.c:1909  */
 
   #include "numerique.h"
 
@@ -53,30 +53,39 @@ extern int yydebug;
   {
     NUMBER = 258,
     IDENTIFIER = 259,
-    OP_PLUS = 260,
-    OP_MINUS = 261,
-    OP_MULTIPLY = 262,
-    OP_DIVIDE = 263,
-    OP_OR = 264,
-    OP_AND = 265,
-    OP_GREATER = 266,
-    OP_GREATEREQUAL = 267,
-    OP_EQUAL = 268,
-    OP_LESSEREQUAL = 269,
-    OP_LESSER = 270,
-    OP_DIFFERENT = 271,
-    IF = 272,
-    ELSE = 273,
-    ENDIF = 274,
-    REPEAT = 275,
-    ENDREPEAT = 276,
-    POSITION = 277,
-    COLOUR = 278,
-    RIGHT = 279,
-    LEFT = 280,
-    UP = 281,
-    DOWN = 282,
-    LINE = 283
+    PI = 260,
+    COMMENT = 261,
+    BIGCOMMENT = 262,
+    OP_PLUS = 263,
+    OP_MINUS = 264,
+    OP_MULTIPLY = 265,
+    OP_DIVIDE = 266,
+    OP_OR = 267,
+    OP_AND = 268,
+    OP_GREATER = 269,
+    OP_GREATEREQUAL = 270,
+    OP_EQUAL = 271,
+    OP_LESSEREQUAL = 272,
+    OP_LESSER = 273,
+    OP_DIFFERENT = 274,
+    SINUS = 275,
+    COSINUS = 276,
+    IF = 277,
+    ELSE = 278,
+    ENDIF = 279,
+    REPEAT = 280,
+    ENDREPEAT = 281,
+    WHILE = 282,
+    ENDWHILE = 283,
+    POSITION = 284,
+    TURTLE = 285,
+    COLOUR = 286,
+    ROTATE = 287,
+    FORWARD = 288,
+    WIDTH = 289,
+    TIME = 290,
+    WAIT = 291,
+    FRAMESKIP = 292
   };
 #endif
 
@@ -85,13 +94,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 28 "projet.y" /* yacc.c:1909  */
+#line 29 "projet.y" /* yacc.c:1909  */
 
   double valeur;
   char nom[50];
   Numerique * expr;
 
-#line 95 "projet.y.hpp" /* yacc.c:1909  */
+#line 104 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

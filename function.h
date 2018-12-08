@@ -1,19 +1,26 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
-void couleur(int R,int V,int B);
-
-void incliner(int a);
 
 void taille_fenetre(int X, int Y);
 void afficher();
 
 void position(int X, int Y);
 
-void droite(int a);
-void gauche(int a);
-void haut(int a);
-void bas(int a);
+void imageTortue(unsigned int id);
+void activationTortue(bool estActive);
 
-void ligne_par_coordonnes(int a,int b);
+void couleur(int R,int V,int B);
+
+void incliner(double a);
+
+void rayonTrait(int X);    // Epaisseur du trait
+
+void tempDelai(int X);    // Delai entre chaque pixel dessine
+
+void setFrameSkip(int f);
+
+void pixelAvancer(unsigned int distance);
+
+void circle(int r, float xi, float yi);
 #endif
