@@ -1,3 +1,4 @@
+// Collier multicolore
 i = 0
 POSITION(500,750)
 SAUT(5)

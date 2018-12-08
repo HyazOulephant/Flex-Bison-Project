@@ -87,10 +87,6 @@ void position(int X, int Y){    //Position x et y
   y = Y;
 }
 
-void affichageTortue(bool estAffiche){ // Activer/Desactiver l'affichage
-  tortueAffichage = estAffiche;
-}
-
 void imageTortue(unsigned int id){
   tortueAffichage = id;
   switch(id){
@@ -121,17 +117,13 @@ void couleur(int R,int V,int B){      //Couleur selon Rouge, Vert, Bleu
   SDL_SetRenderDrawColor(renderer, r, v, b, SDL_ALPHA_OPAQUE);  //Application parametres
 }
 
-void incliner(double a){
-  for(int i = 0; i < floor(a); i++){
-    inclinaison += a/floor(a);
-    afficher();
-
-    SDL_Delay(delai);
-  }
-}
-
 void rayonTrait(int X){    // Epaisseur du trait
   epaisseur = X;
+}
+
+void createPoint(){    // Cree un point
+  circle(epaisseur, x, y);
+  afficher();
 }
 
 void tempDelai(int X){    // Delai entre chaque pixel dessine
@@ -147,17 +139,38 @@ void setFrameSkip(int f){
                     ########################################
 */
 
-void pixelAvancer(unsigned int distance){
+void incliner(double a){
+  if(a < 1){ // On evite la boucle for si on incline de moins de 1
+    inclinaison += a;
+    afficher();
+    SDL_Delay(delai);
+  }else{
+    for(int i = 0; i < floor(a); i++){
+      inclinaison += a/floor(a);
+      afficher();
+      SDL_Delay(delai);
+    }
+  }
+}
 
-  for(unsigned int i = 0; i < distance; i++){
-    x += cos((float)inclinaison * M_PI / 180);
-    y -= sin((float)inclinaison * M_PI / 180);
+void pixelAvancer(double distance){
+  if(distance < 1){ // On evite la boucle for si on avance de moins de 1
+    x += cos((float)inclinaison * M_PI / 180) * distance;
+    y -= sin((float)inclinaison * M_PI / 180) * distance;
     circle(epaisseur, x, y);
     afficher();
 
     SDL_Delay(delai);
-  }
+  }else{
+    for(unsigned int i = 0; i < floor(distance); i++){
+      x += cos((float)inclinaison * M_PI / 180) * distance/floor(distance);
+      y -= sin((float)inclinaison * M_PI / 180) * distance/floor(distance);
+      circle(epaisseur, x, y);
+      afficher();
 
+      SDL_Delay(delai);
+    }
+  }
 }
 
 /*                  #####################################
@@ -166,9 +179,16 @@ void pixelAvancer(unsigned int distance){
 */
 
 void circle(int r, float xi, float yi){
-  for(int i = 0; i < r; i++){
-    for(float th = 0; th < M_PI*2*i; th++){
-      SDL_RenderDrawPoint(renderer, xi + cos(th/i) * i, yi + sin(th/i) * i);
+  if(tortueActive){
+    /*for(int i = 0; i < r; i++){ // MODE POLAIRE
+      for(float th = 0; th < M_PI*4*i; th++){
+        SDL_RenderDrawPoint(renderer, xi + cos(th/i) * i, yi + sin(th/i) * i);
+      }
+    }*/
+    for(int i = xi-r; i < xi+r+1; i++){ // MODE CARTESIEN
+      for(int j = yi-r; j < yi+r+1; j++){
+        if((i-xi)*(i-xi) + (j-yi)*(j-yi) <= r*r) SDL_RenderDrawPoint(renderer, i, j);
+      }
     }
   }
 }

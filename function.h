@@ -12,15 +12,16 @@ void activationTortue(bool estActive);
 
 void couleur(int R,int V,int B);
 
-void incliner(double a);
-
 void rayonTrait(int X);    // Epaisseur du trait
+
+void createPoint();
 
 void tempDelai(int X);    // Delai entre chaque pixel dessine
 
 void setFrameSkip(int f);
 
-void pixelAvancer(unsigned int distance);
+void incliner(double a);
+void pixelAvancer(double distance);
 
 void circle(int r, float xi, float yi);
 #endif

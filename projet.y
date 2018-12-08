@@ -68,6 +68,7 @@
 %token ROTATE
 %token FORWARD
 %token WIDTH
+%token POINT
 %token TIME
 %token WAIT
 %token FRAMESKIP
@@ -124,6 +125,9 @@ instruction : expression  {
               }
             | WIDTH expression {
                 pile.push_back(Instruction (IDs::Epaisseur, {$2}));
+              }
+            | POINT {
+                pile.push_back(Instruction (IDs::Point, {}));
               }
             | TIME expression {
                 pile.push_back(Instruction (IDs::Delai, {$2}));
@@ -301,6 +305,11 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
       case IDs::Epaisseur: { // On change le rayon du trait de dessin
         rayonTrait(params[0]->getNum());
+        break;
+      }
+
+      case IDs::Point: { // On change le rayon du trait de dessin
+        createPoint();
         break;
       }
 

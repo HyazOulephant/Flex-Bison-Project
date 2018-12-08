@@ -24,6 +24,7 @@ enum class IDs {
   Inclinaison,
   Avancer,
   Epaisseur,
+  Point,
   Delai,
   Attendre,
   SautImage

@@ -12,7 +12,7 @@ FAUX|Faux|faux|NON|Non|non    { yylval.valeur = 0; return NUMBER; }
 PI|Pi|pi        { return PI; }
 
 \/\/[^\n]*                          { return COMMENT; }
-\/\*(.|\n)*\*\/                   { std::cout<<"ret"<<std::endl;return BIGCOMMENT; }
+\/\*(.|\n)*\*\/                     { return BIGCOMMENT; }
 
 \+                                  { return OP_PLUS; }
 -                                   { return OP_MINUS; }
@@ -40,12 +40,14 @@ FINTANTQUE|FinTantQue|Tantque|tantque { return ENDWHILE; }
 POSITION|Position|position        { return POSITION;  }
 TORTUE|Tortue|tortue              { return TURTLE;  }
 COULEUR|Couleur|couleur           { return COLOUR;  }
-INCLINE|Incline|incline           { return ROTATE;  }
 AVANCE|Avance|avance              { return FORWARD;  }
 EPAISSEUR|Epaisseur|epaisseur     { return WIDTH;  }
+POINT|Point|point                 { return POINT;  }
 DELAI|Delai|delai                 { return TIME;  }
 ATTENDRE|Attendre|attendre        { return WAIT;  }
-SAUTIMAGE|SautImage|Sautimage|sautimage|SAUT|Saut|saut { return FRAMESKIP;  }
+
+INCLINE|Incline|incline                                 { return ROTATE;  }
+SAUTIMAGE|SautImage|Sautimage|sautimage|SAUT|Saut|saut  { return FRAMESKIP;  }
 
 
 [a-zA-Z_]+                        { strcpy(yylval.nom,yytext); return IDENTIFIER; }

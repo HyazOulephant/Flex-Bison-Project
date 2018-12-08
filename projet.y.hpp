@@ -83,9 +83,10 @@ extern int yydebug;
     ROTATE = 287,
     FORWARD = 288,
     WIDTH = 289,
-    TIME = 290,
-    WAIT = 291,
-    FRAMESKIP = 292
+    POINT = 290,
+    TIME = 291,
+    WAIT = 292,
+    FRAMESKIP = 293
   };
 #endif
 
@@ -100,7 +101,7 @@ union YYSTYPE
   char nom[50];
   Numerique * expr;
 
-#line 104 "projet.y.hpp" /* yacc.c:1909  */
+#line 105 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
