@@ -75,6 +75,8 @@
 
 %type <expr> expression
 
+%left OP_OR OP_AND
+%left OP_EQUAL OP_LESSER OP_GREATER OP_LESSEREQUAL OP_GREATEREQUAL OP_DIFFERENT
 %left OP_PLUS OP_MINUS     /* associativité à gauche */
 %left OP_MULTIPLY OP_DIVIDE     /* associativité à gauche */
 
