@@ -1,0 +1,38 @@
+POSITION(0-100,500)
+COULEUR(0,0,0)
+SAUT 2
+EPAISSEUR 30
+TORTUE = 4
+COULEUR(0,0,200)
+INCLINE 0-10
+
+ori = 0
+REPETE 520
+  ori = ori+1
+  COULEUR(0,0,sin(ori / 10)*50 + 200)
+  EPAISSEUR(sin(ori / 10)*10 + 30)
+  INCLINE(sin(ori / 10))
+  AVANCE 2
+FINREPETE
+
+INCLINE 90
+epai = 40
+REPETE 90
+  ori = ori+1
+  epai = epai+1
+  EPAISSEUR(epai/2)
+  COULEUR(0,0,sin(ori / 10)*50 + 200)
+  INCLINE(1)
+  AVANCE (1/2 * pi * 400 / 90)
+FINREPETE
+
+SAUT 10
+INCLINE 88
+TORTUE FAUX
+REPETE 125
+  epai = epai+3
+  EPAISSEUR(epai/2)
+  AVANCE 4
+FINREPETE
+
+INCLINE 1080-270

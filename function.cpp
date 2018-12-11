@@ -103,6 +103,18 @@ void imageTortue(unsigned int id){
       turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
       break;
     }
+
+    case 3: {
+      pSprite = SDL_LoadBMP("turtles/pinceau.bmp");
+      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      break;
+    }
+
+    case 4: {
+      pSprite = SDL_LoadBMP("turtles/carapace_bleue.bmp");
+      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      break;
+    }
   }
 }
 
