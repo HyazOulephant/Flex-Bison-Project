@@ -28,6 +28,9 @@ PI|Pi|pi        { return PI; }
 !=                                  { return OP_DIFFERENT; }
 SIN|SINUS|Sin|Sinus|sin|sinus       { return SINUS; }
 COS|COSINUS|Cos|Cosinus|cos|cosinus { return COSINUS; }
+ASIN|ARCSINUS|Asin|ArcSinus|asin|arcsinus       { return ARCSINUS; }
+ACOS|ARCCOSINUS|Acos|ArcCosinus|acos|arccosinus { return ARCCOSINUS; }
+RACINE|Racine|racine                { return SQUAREROOT; }
 
 SI|Si|si                              { return IF; }
 SINON|Sinon|sinon                     { return ELSE;  }
@@ -36,6 +39,8 @@ REPETE|Repete|repete                  { return REPEAT;  }
 FINREPETE|FinRepete|finrepete         { return ENDREPEAT; }
 TANTQUE|TantQue|Tantque|tantque       { return WHILE;  }
 FINTANTQUE|FinTantQue|Tantque|tantque { return ENDWHILE; }
+FONCTION|Fonction|fonction            { return FUNCTION;  }
+FINFONCTION|FinFonction|finfonction   { return ENDFUNCTION; }
 
 POSITION|Position|position        { return POSITION;  }
 TORTUE|Tortue|tortue              { return TURTLE;  }

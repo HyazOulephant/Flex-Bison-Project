@@ -43,8 +43,10 @@ extern int yydebug;
 #line 24 "projet.y" /* yacc.c:1909  */
 
   #include "numerique.h"
+  #include <vector>
+  #include <string>
 
-#line 48 "projet.y.hpp" /* yacc.c:1909  */
+#line 50 "projet.y.hpp" /* yacc.c:1909  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -70,23 +72,28 @@ extern int yydebug;
     OP_DIFFERENT = 274,
     SINUS = 275,
     COSINUS = 276,
-    IF = 277,
-    ELSE = 278,
-    ENDIF = 279,
-    REPEAT = 280,
-    ENDREPEAT = 281,
-    WHILE = 282,
-    ENDWHILE = 283,
-    POSITION = 284,
-    TURTLE = 285,
-    COLOUR = 286,
-    ROTATE = 287,
-    FORWARD = 288,
-    WIDTH = 289,
-    POINT = 290,
-    TIME = 291,
-    WAIT = 292,
-    FRAMESKIP = 293
+    ARCSINUS = 277,
+    ARCCOSINUS = 278,
+    SQUAREROOT = 279,
+    IF = 280,
+    ELSE = 281,
+    ENDIF = 282,
+    REPEAT = 283,
+    ENDREPEAT = 284,
+    WHILE = 285,
+    ENDWHILE = 286,
+    FUNCTION = 287,
+    ENDFUNCTION = 288,
+    POSITION = 289,
+    TURTLE = 290,
+    COLOUR = 291,
+    ROTATE = 292,
+    FORWARD = 293,
+    WIDTH = 294,
+    POINT = 295,
+    TIME = 296,
+    WAIT = 297,
+    FRAMESKIP = 298
   };
 #endif
 
@@ -95,13 +102,15 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 29 "projet.y" /* yacc.c:1909  */
+#line 31 "projet.y" /* yacc.c:1909  */
 
   double valeur;
   char nom[50];
   Numerique * expr;
+  std::vector<std::string> * tabNoms;
+  std::vector<Numerique *> * tabVals;
 
-#line 105 "projet.y.hpp" /* yacc.c:1909  */
+#line 114 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

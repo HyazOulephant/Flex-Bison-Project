@@ -1,15 +1,15 @@
 POSITION (500,500)
-TORTUE = 4
+TORTUE = 3
 COULEUR(150,0,150)
 EPAISSEUR(8)
 
 i = 1
 
 REPETE 1080 * 4
-i = i+1
+  i = i+1
   AVANCE(1+ i /1000)
   COULEUR(sin(pi * i / 255)*128 + 128,sin(pi * 2 * i / 255)*128 + 128,sin(pi * 3 * i / 255)*128 + 128)
 
-  EPAISSEUR(sin(pi * i/100)*5 + 5)
-  INCLINE(1+ 70 /i)
+  EPAISSEUR(sin(pi * i/100)*5 + 4)
+  INCLINE(1+ 80 /i)
 FINREPETE

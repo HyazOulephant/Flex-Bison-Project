@@ -1,0 +1,15 @@
+POSITION (500,500)
+EPAISSEUR 1
+SAUT(1000)
+TORTUE = 0
+
+angle = 0.5
+pas = 3
+
+i = 0
+
+REPETE 400
+  i = i+pas
+  AVANCE 1+i/2
+  INCLINE 90 - angle
+FINREPETE
