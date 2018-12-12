@@ -368,15 +368,16 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
       }
 
       case IDs::Fonction: { // Appel d'une fonction
-        if(fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )].first == 0){
+        std::pair<unsigned int, std::vector<std::string> > Fonc = fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )];
+        if(Fonc.first == 0){
           std::cout << "Fonction \"" << params[0]->getVarName() << "\" inexistante." << std::endl;
         }else{
           std::vector< std::pair< std::string, double > > temp;
           for(int k = 2; k < params.size(); k++){
-            temp.push_back(std::make_pair(fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )].second[k-2], variables[fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )].second[k-2]]));
-            variables[fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )].second[k-2]] = params[k]->getNum();
+            temp.push_back(std::make_pair(Fonc.second[k-2], variables[Fonc.second[k-2]]));
+            variables[Fonc.second[k-2]] = params[k]->getNum();
           }
-          execution(stack, fonctions[std::make_pair ( params[0]->getVarName(), params[1]->getNum() )].first);
+          execution(stack, Fonc.first);
           for(int k = 0; k < temp.size(); k++){
             variables[temp[k].first] = temp[k].second;
           }
