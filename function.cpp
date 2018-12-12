@@ -36,6 +36,9 @@ SDL_Surface* pSprite  = NULL;
 SDL_Texture* drawingTexture = NULL;
 SDL_Texture* turtleTexture = NULL;
 
+int nb_frame_sprite = 1;
+float frame_sprite = 0;
+
 void taille_fenetre(int X, int Y){
   winWidth = X;
   winHeight = Y;
@@ -70,8 +73,14 @@ void afficher(){
     SDL_RenderCopy(renderer,drawingTexture,NULL,&drawingR); // On affiche la texture de la zone de dessin
 
     if(tortueAffichage){
-      SDL_Rect spriteR = { x - 2 * epaisseur, y - 2 * (epaisseur * pSprite->h / pSprite->w), 4 * epaisseur, 4 * epaisseur * pSprite->h / pSprite->w};
-      SDL_RenderCopyEx(renderer,turtleTexture,NULL,&spriteR,-inclinaison,NULL,SDL_FLIP_NONE); // Copie du sprite grâce au SDL_Renderer
+      frame_sprite+=0.1;
+      if(frame_sprite >= nb_frame_sprite){
+        frame_sprite = 0;
+      }
+      SDL_Rect spriteR = { x - 2 * epaisseur * (pSprite->w / nb_frame_sprite) / pSprite->h, y - 2 * epaisseur, 4 * epaisseur * (pSprite->w / nb_frame_sprite) / pSprite->h, 4 * epaisseur};
+      SDL_Rect spriteS = {0 + floor(frame_sprite) * pSprite->w / nb_frame_sprite, 0, pSprite->w / nb_frame_sprite, pSprite->h};
+      SDL_RenderCopyEx(renderer,turtleTexture,&spriteS,&spriteR,-inclinaison,NULL,SDL_FLIP_NONE); // Copie du sprite grâce au SDL_Renderer
+
     }
 
     SDL_RenderPresent(renderer);
@@ -94,34 +103,36 @@ void imageTortue(unsigned int id){
 
     case 1: {
       pSprite = SDL_LoadBMP("turtles/pinceau.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      nb_frame_sprite = 1;
       break;
     }
 
     case 2: {
       pSprite = SDL_LoadBMP("turtles/isen.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      nb_frame_sprite = 1;
       break;
     }
 
     case 3: {
-      pSprite = SDL_LoadBMP("turtles/nyan.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      pSprite = SDL_LoadBMP("turtles/NYAN2.bmp");
+      nb_frame_sprite = 8;
       break;
     }
 
     case 4: {
       pSprite = SDL_LoadBMP("turtles/carapace_bleue.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      nb_frame_sprite = 1;
       break;
     }
 
     case 5: {
       pSprite = SDL_LoadBMP("turtles/terre.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
+      nb_frame_sprite = 1;
       break;
     }
   }
+  frame_sprite = 0;
+  turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
 }
 
 void activationTortue(bool estActive){ // Activer/Desactiver le dessin de la tortue

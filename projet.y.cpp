@@ -2267,39 +2267,35 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
 int main(int argc, char* argv[])
 {
+  SDL_bool done = SDL_FALSE;
+SDL_Event event;
 
 
+  // Grammaire
+  if ( argc > 1 )
+  yyin = fopen( argv[1], "r" );
+  else
+  yyin = stdin;
+  yyparse();
+
+  // Creation de la fenetre
+  taille_fenetre(1000,1000);
+
+  // On execute les instructions
+  execution(pile, 0);
+
+  // On affiche l'etat final (au cas ou nous aurions saute cette frame)
+  setFrameSkip(0);
+  afficher();
 
 
-            SDL_bool done = SDL_FALSE;
+  while (SDL_PollEvent(&event) || !done) {
+    if (event.type == SDL_QUIT) {
+      done = SDL_TRUE;
+    }
+  }
 
 
-                SDL_Event event;
-                // Grammaire
-                if ( argc > 1 )
-                  yyin = fopen( argv[1], "r" );
-                else
-                  yyin = stdin;
-                yyparse();
-
-                // Creation de la fenetre
-                taille_fenetre(1000,1000);
-
-                // On execute les instructions
-                execution(pile, 0);
-
-                // On affiche l'etat final (au cas ou nous aurions saute cette frame)
-                setFrameSkip(0);
-                afficher();
-                while (SDL_PollEvent(&event) || !done) {
-                    if (event.type == SDL_QUIT) {
-                        done = SDL_TRUE;
-                    }
-                }
-
-
-
-
-    SDL_Quit();
-    return 0;
+  SDL_Quit();
+  return 0;
 }
