@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,11 +40,14 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.2.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -61,8 +64,8 @@
 
 
 
-/* Copy the first part of user declarations.  */
-#line 1 "projet.y" /* yacc.c:339  */
+/* First part of user prologue.  */
+#line 1 "projet.y" /* yacc.c:338  */
 
   #include <iostream>
   #include <time.h>
@@ -85,13 +88,16 @@
 
   std::vector<Instruction> pile = {};
 
-#line 89 "projet.y.cpp" /* yacc.c:339  */
-
+#line 92 "projet.y.cpp" /* yacc.c:338  */
 # ifndef YY_NULLPTR
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULLPTR nullptr
+#  if defined __cplusplus
+#   if 201103L <= __cplusplus
+#    define YY_NULLPTR nullptr
+#   else
+#    define YY_NULLPTR 0
+#   endif
 #  else
-#   define YY_NULLPTR 0
+#   define YY_NULLPTR ((void*)0)
 #  endif
 # endif
 
@@ -115,13 +121,13 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 24 "projet.y" /* yacc.c:355  */
+#line 24 "projet.y" /* yacc.c:353  */
 
   #include "numerique.h"
   #include <vector>
   #include <string>
 
-#line 125 "projet.y.cpp" /* yacc.c:355  */
+#line 131 "projet.y.cpp" /* yacc.c:353  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -177,7 +183,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 31 "projet.y" /* yacc.c:355  */
+#line 31 "projet.y" /* yacc.c:353  */
 
   double valeur;
   char nom[50];
@@ -185,7 +191,7 @@ union YYSTYPE
   std::vector<std::string> * tabNoms;
   std::vector<Numerique *> * tabVals;
 
-#line 189 "projet.y.cpp" /* yacc.c:355  */
+#line 195 "projet.y.cpp" /* yacc.c:353  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -200,9 +206,7 @@ int yyparse (void);
 
 #endif /* !YY_YY_PROJET_Y_HPP_INCLUDED  */
 
-/* Copy the second part of user declarations.  */
 
-#line 206 "projet.y.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -223,13 +227,13 @@ typedef signed char yytype_int8;
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short int yytype_uint16;
+typedef unsigned short yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short int yytype_int16;
+typedef short yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -241,7 +245,7 @@ typedef short int yytype_int16;
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned int
+#  define YYSIZE_T unsigned
 # endif
 #endif
 
@@ -277,15 +281,6 @@ typedef short int yytype_int16;
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
-#if !defined _Noreturn \
-     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
-# if defined _MSC_VER && 1200 <= _MSC_VER
-#  define _Noreturn __declspec (noreturn)
-# else
-#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
-# endif
-#endif
-
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
@@ -293,7 +288,7 @@ typedef short int yytype_int16;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -461,7 +456,7 @@ union yyalloc
 #define YYMAXUTOK   298
 
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, without out-of-bounds checking.  */
@@ -837,37 +832,37 @@ do {                                                                      \
 } while (0)
 
 
-/*----------------------------------------.
-| Print this symbol's value on YYOUTPUT.  |
-`----------------------------------------*/
+/*-----------------------------------.
+| Print this symbol's value on YYO.  |
+`-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyo = yyoutput;
-  YYUSE (yyo);
+  FILE *yyoutput = yyo;
+  YYUSE (yyoutput);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
   YYUSE (yytype);
 }
 
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*---------------------------.
+| Print this symbol on YYO.  |
+`---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyoutput, "%s %s (",
+  YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
-  YYFPRINTF (yyoutput, ")");
+  yy_symbol_value_print (yyo, yytype, yyvaluep);
+  YYFPRINTF (yyo, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -901,7 +896,7 @@ do {                                                            \
 static void
 yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  unsigned long int yylno = yyrline[yyrule];
+  unsigned long yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
@@ -1034,7 +1029,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return yystpcpy (yyres, yystr) - yyres;
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -1127,6 +1122,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
+    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1275,12 +1271,12 @@ yyparse (void)
   yyssp++;
 
  yysetstate:
-  *yyssp = yystate;
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
 #ifdef yyoverflow
       {
@@ -1298,7 +1294,6 @@ yyparse (void)
                     &yyss1, yysize * sizeof (*yyssp),
                     &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
-
         yyss = yyss1;
         yyvs = yyvs1;
       }
@@ -1332,7 +1327,7 @@ yyparse (void)
       yyvsp = yyvs + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long int) yystacksize));
+                  (unsigned long) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
@@ -1443,17 +1438,17 @@ yyreduce:
   switch (yyn)
     {
         case 6:
-#line 101 "projet.y" /* yacc.c:1646  */
+#line 101 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<std::string> * t = new std::vector<std::string>;
                   t->push_back((yyvsp[0].nom));
                   (yyval.tabNoms) = t;
                 }
-#line 1453 "projet.y.cpp" /* yacc.c:1646  */
+#line 1448 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 7:
-#line 106 "projet.y" /* yacc.c:1646  */
+#line 106 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<std::string> * v = new std::vector<std::string>;
                   v->push_back((yyvsp[-2].nom));
@@ -1461,30 +1456,30 @@ yyreduce:
                   v->insert( v->end(), v2->begin(), v2->end() );
                   (yyval.tabNoms) = v;
                 }
-#line 1465 "projet.y.cpp" /* yacc.c:1646  */
+#line 1460 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 8:
-#line 113 "projet.y" /* yacc.c:1646  */
+#line 113 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<std::string> * t = new std::vector<std::string>;
                   (yyval.tabNoms) = t;
                 }
-#line 1474 "projet.y.cpp" /* yacc.c:1646  */
+#line 1469 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 9:
-#line 119 "projet.y" /* yacc.c:1646  */
+#line 119 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<Numerique *> * t = new std::vector<Numerique *>;
                   t->push_back((yyvsp[0].expr));
                   (yyval.tabVals) = t;
                 }
-#line 1484 "projet.y.cpp" /* yacc.c:1646  */
+#line 1479 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 10:
-#line 124 "projet.y" /* yacc.c:1646  */
+#line 124 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<Numerique *> * v = new std::vector<Numerique *>;
                   v->push_back((yyvsp[-2].expr));
@@ -1492,68 +1487,68 @@ yyreduce:
                   v->insert( v->end(), v2->begin(), v2->end() );
                   (yyval.tabVals) = v;
                 }
-#line 1496 "projet.y.cpp" /* yacc.c:1646  */
+#line 1491 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 11:
-#line 131 "projet.y" /* yacc.c:1646  */
+#line 131 "projet.y" /* yacc.c:1645  */
     {
                   std::vector<Numerique *> * t = new std::vector<Numerique *>;
                   (yyval.tabVals) = t;
                 }
-#line 1505 "projet.y.cpp" /* yacc.c:1646  */
+#line 1500 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 12:
-#line 137 "projet.y" /* yacc.c:1646  */
+#line 137 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::ConsoleEcho, {(yyvsp[0].expr)}));
               }
-#line 1513 "projet.y.cpp" /* yacc.c:1646  */
+#line 1508 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 13:
-#line 140 "projet.y" /* yacc.c:1646  */
+#line 140 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Si, {(yyvsp[0].expr)}));
               }
-#line 1521 "projet.y.cpp" /* yacc.c:1646  */
+#line 1516 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 15:
-#line 143 "projet.y" /* yacc.c:1646  */
+#line 143 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Repete, {(yyvsp[0].expr)}));
               }
-#line 1529 "projet.y.cpp" /* yacc.c:1646  */
+#line 1524 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 16:
-#line 145 "projet.y" /* yacc.c:1646  */
+#line 145 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::FinRepete, {}));
               }
-#line 1537 "projet.y.cpp" /* yacc.c:1646  */
+#line 1532 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 17:
-#line 148 "projet.y" /* yacc.c:1646  */
+#line 148 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::TantQue, {(yyvsp[0].expr)}));
               }
-#line 1545 "projet.y.cpp" /* yacc.c:1646  */
+#line 1540 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 18:
-#line 150 "projet.y" /* yacc.c:1646  */
+#line 150 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::FinTantQue, {}));
               }
-#line 1553 "projet.y.cpp" /* yacc.c:1646  */
+#line 1548 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 19:
-#line 153 "projet.y" /* yacc.c:1646  */
+#line 153 "projet.y" /* yacc.c:1645  */
     {
                 std::vector<std::string> * t = (yyvsp[-1].tabNoms);
                 std::vector<Numerique *> param;
@@ -1564,19 +1559,19 @@ yyreduce:
                 }
                 pile.push_back(Instruction (IDs::NouvelleFonction, param));
               }
-#line 1568 "projet.y.cpp" /* yacc.c:1646  */
+#line 1563 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 20:
-#line 162 "projet.y" /* yacc.c:1646  */
+#line 162 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::FinNouvelleFonction, {}));
               }
-#line 1576 "projet.y.cpp" /* yacc.c:1646  */
+#line 1571 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 21:
-#line 165 "projet.y" /* yacc.c:1646  */
+#line 165 "projet.y" /* yacc.c:1645  */
     {
                 std::vector<Numerique *> * t = (yyvsp[-1].tabVals);
                 std::vector<Numerique *> param;
@@ -1587,257 +1582,257 @@ yyreduce:
                 }
                 pile.push_back(Instruction (IDs::Fonction, param));
               }
-#line 1591 "projet.y.cpp" /* yacc.c:1646  */
+#line 1586 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 22:
-#line 175 "projet.y" /* yacc.c:1646  */
+#line 175 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::VariableSet, {new Numerique((yyvsp[-2].nom)), (yyvsp[0].expr)}));
               }
-#line 1599 "projet.y.cpp" /* yacc.c:1646  */
+#line 1594 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 24:
-#line 179 "projet.y" /* yacc.c:1646  */
+#line 179 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Position, {(yyvsp[-3].expr), (yyvsp[-1].expr)}));
               }
-#line 1607 "projet.y.cpp" /* yacc.c:1646  */
+#line 1602 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 25:
-#line 182 "projet.y" /* yacc.c:1646  */
+#line 182 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::TortueActivation, {(yyvsp[0].expr)}));
               }
-#line 1615 "projet.y.cpp" /* yacc.c:1646  */
+#line 1610 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 26:
-#line 185 "projet.y" /* yacc.c:1646  */
+#line 185 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::TortueImage, {(yyvsp[0].expr)}));
               }
-#line 1623 "projet.y.cpp" /* yacc.c:1646  */
+#line 1618 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 27:
-#line 188 "projet.y" /* yacc.c:1646  */
+#line 188 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Couleur, {(yyvsp[-5].expr), (yyvsp[-3].expr), (yyvsp[-1].expr)}));
               }
-#line 1631 "projet.y.cpp" /* yacc.c:1646  */
+#line 1626 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 28:
-#line 191 "projet.y" /* yacc.c:1646  */
+#line 191 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Inclinaison, {(yyvsp[0].expr)}));
               }
-#line 1639 "projet.y.cpp" /* yacc.c:1646  */
+#line 1634 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 29:
-#line 194 "projet.y" /* yacc.c:1646  */
+#line 194 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Avancer, {(yyvsp[0].expr)}));
               }
-#line 1647 "projet.y.cpp" /* yacc.c:1646  */
+#line 1642 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 30:
-#line 197 "projet.y" /* yacc.c:1646  */
+#line 197 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Epaisseur, {(yyvsp[0].expr)}));
               }
-#line 1655 "projet.y.cpp" /* yacc.c:1646  */
+#line 1650 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 31:
-#line 200 "projet.y" /* yacc.c:1646  */
+#line 200 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Point, {}));
               }
-#line 1663 "projet.y.cpp" /* yacc.c:1646  */
+#line 1658 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 32:
-#line 203 "projet.y" /* yacc.c:1646  */
+#line 203 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Delai, {(yyvsp[0].expr)}));
               }
-#line 1671 "projet.y.cpp" /* yacc.c:1646  */
+#line 1666 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 33:
-#line 206 "projet.y" /* yacc.c:1646  */
+#line 206 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::Attendre, {(yyvsp[0].expr)}));
               }
-#line 1679 "projet.y.cpp" /* yacc.c:1646  */
+#line 1674 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 34:
-#line 209 "projet.y" /* yacc.c:1646  */
+#line 209 "projet.y" /* yacc.c:1645  */
     {
                 pile.push_back(Instruction (IDs::SautImage, {(yyvsp[0].expr)}));
               }
-#line 1687 "projet.y.cpp" /* yacc.c:1646  */
+#line 1682 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 35:
-#line 214 "projet.y" /* yacc.c:1646  */
+#line 214 "projet.y" /* yacc.c:1645  */
     {
                     pile.push_back(Instruction (IDs::FinSi, {}));
                   }
-#line 1695 "projet.y.cpp" /* yacc.c:1646  */
+#line 1690 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 36:
-#line 217 "projet.y" /* yacc.c:1646  */
+#line 217 "projet.y" /* yacc.c:1645  */
     {
                     pile.push_back(Instruction (IDs::Sinon, {}));
                   }
-#line 1703 "projet.y.cpp" /* yacc.c:1646  */
+#line 1698 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 37:
-#line 219 "projet.y" /* yacc.c:1646  */
+#line 219 "projet.y" /* yacc.c:1645  */
     {
                     pile.push_back(Instruction (IDs::FinSi, {}));
                   }
-#line 1711 "projet.y.cpp" /* yacc.c:1646  */
+#line 1706 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 38:
-#line 224 "projet.y" /* yacc.c:1646  */
+#line 224 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Plus, (yyvsp[0].expr)); }
-#line 1717 "projet.y.cpp" /* yacc.c:1646  */
+#line 1712 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 39:
-#line 225 "projet.y" /* yacc.c:1646  */
+#line 225 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Moins, (yyvsp[0].expr)); }
-#line 1723 "projet.y.cpp" /* yacc.c:1646  */
+#line 1718 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 40:
-#line 226 "projet.y" /* yacc.c:1646  */
+#line 226 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Fois, (yyvsp[0].expr)); }
-#line 1729 "projet.y.cpp" /* yacc.c:1646  */
+#line 1724 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 41:
-#line 227 "projet.y" /* yacc.c:1646  */
+#line 227 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Divise, (yyvsp[0].expr)); }
-#line 1735 "projet.y.cpp" /* yacc.c:1646  */
+#line 1730 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 42:
-#line 228 "projet.y" /* yacc.c:1646  */
+#line 228 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Ou, (yyvsp[0].expr)); }
-#line 1741 "projet.y.cpp" /* yacc.c:1646  */
+#line 1736 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 43:
-#line 229 "projet.y" /* yacc.c:1646  */
+#line 229 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Et, (yyvsp[0].expr)); }
-#line 1747 "projet.y.cpp" /* yacc.c:1646  */
+#line 1742 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 44:
-#line 230 "projet.y" /* yacc.c:1646  */
+#line 230 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Superieur, (yyvsp[0].expr)); }
-#line 1753 "projet.y.cpp" /* yacc.c:1646  */
+#line 1748 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 45:
-#line 231 "projet.y" /* yacc.c:1646  */
+#line 231 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::SuperieurEgal, (yyvsp[0].expr)); }
-#line 1759 "projet.y.cpp" /* yacc.c:1646  */
+#line 1754 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 46:
-#line 232 "projet.y" /* yacc.c:1646  */
+#line 232 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Egal, (yyvsp[0].expr)); }
-#line 1765 "projet.y.cpp" /* yacc.c:1646  */
+#line 1760 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 47:
-#line 233 "projet.y" /* yacc.c:1646  */
+#line 233 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::InferieurEgal, (yyvsp[0].expr)); }
-#line 1771 "projet.y.cpp" /* yacc.c:1646  */
+#line 1766 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 48:
-#line 234 "projet.y" /* yacc.c:1646  */
+#line 234 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Inferieur, (yyvsp[0].expr)); }
-#line 1777 "projet.y.cpp" /* yacc.c:1646  */
+#line 1772 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 49:
-#line 235 "projet.y" /* yacc.c:1646  */
+#line 235 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-2].expr), Operateurs::Different, (yyvsp[0].expr)); }
-#line 1783 "projet.y.cpp" /* yacc.c:1646  */
+#line 1778 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 50:
-#line 236 "projet.y" /* yacc.c:1646  */
+#line 236 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-1].expr), Operateurs::Sinus, NULL); }
-#line 1789 "projet.y.cpp" /* yacc.c:1646  */
+#line 1784 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 51:
-#line 237 "projet.y" /* yacc.c:1646  */
+#line 237 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-1].expr), Operateurs::Cosinus, NULL); }
-#line 1795 "projet.y.cpp" /* yacc.c:1646  */
+#line 1790 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 52:
-#line 238 "projet.y" /* yacc.c:1646  */
+#line 238 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-1].expr), Operateurs::ArcSinus, NULL); }
-#line 1801 "projet.y.cpp" /* yacc.c:1646  */
+#line 1796 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 53:
-#line 239 "projet.y" /* yacc.c:1646  */
+#line 239 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-1].expr), Operateurs::ArcCosinus, NULL); }
-#line 1807 "projet.y.cpp" /* yacc.c:1646  */
+#line 1802 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 54:
-#line 240 "projet.y" /* yacc.c:1646  */
+#line 240 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[-1].expr), Operateurs::Racine, NULL); }
-#line 1813 "projet.y.cpp" /* yacc.c:1646  */
+#line 1808 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 55:
-#line 241 "projet.y" /* yacc.c:1646  */
+#line 241 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = (yyvsp[-1].expr); }
-#line 1819 "projet.y.cpp" /* yacc.c:1646  */
+#line 1814 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 56:
-#line 242 "projet.y" /* yacc.c:1646  */
+#line 242 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique(M_PI); }
-#line 1825 "projet.y.cpp" /* yacc.c:1646  */
+#line 1820 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 57:
-#line 243 "projet.y" /* yacc.c:1646  */
+#line 243 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[0].valeur)); }
-#line 1831 "projet.y.cpp" /* yacc.c:1646  */
+#line 1826 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
   case 58:
-#line 244 "projet.y" /* yacc.c:1646  */
+#line 244 "projet.y" /* yacc.c:1645  */
     { (yyval.expr) = new Numerique((yyvsp[0].nom)); }
-#line 1837 "projet.y.cpp" /* yacc.c:1646  */
+#line 1832 "projet.y.cpp" /* yacc.c:1645  */
     break;
 
 
-#line 1841 "projet.y.cpp" /* yacc.c:1646  */
+#line 1836 "projet.y.cpp" /* yacc.c:1645  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1862,14 +1857,13 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
+  {
+    const int yylhs = yyr1[yyn] - YYNTOKENS;
+    const int yyi = yypgoto[yylhs] + *yyssp;
+    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
+               ? yytable[yyi]
+               : yydefgoto[yylhs]);
+  }
 
   goto yynewstate;
 
@@ -2065,7 +2059,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 246 "projet.y" /* yacc.c:1906  */
+#line 246 "projet.y" /* yacc.c:1903  */
 
 
 
