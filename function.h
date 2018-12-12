@@ -15,6 +15,7 @@ void couleur(int R,int V,int B);
 void rayonTrait(int X);    // Epaisseur du trait
 
 void createPoint();
+void clearRender();
 
 void tempDelai(int X);    // Delai entre chaque pixel dessine
 

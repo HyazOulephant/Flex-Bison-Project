@@ -78,6 +78,7 @@
 %token FORWARD
 %token WIDTH
 %token POINT
+%token CLEARSCREEN
 %token TIME
 %token WAIT
 %token FRAMESKIP
@@ -199,6 +200,9 @@ instruction : expression  {
               }
             | POINT {
                 pile.push_back(Instruction (IDs::Point, {}));
+              }
+            | CLEARSCREEN {
+                pile.push_back(Instruction (IDs::RemplirEcran, {}));
               }
             | TIME expression {
                 pile.push_back(Instruction (IDs::Delai, {$2}));
@@ -425,8 +429,13 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
         break;
       }
 
-      case IDs::Point: { // On change le rayon du trait de dessin
+      case IDs::Point: { // On fait un point
         createPoint();
+        break;
+      }
+
+      case IDs::RemplirEcran: { // On remplit la zone de dessin
+        clearRender();
         break;
       }
 

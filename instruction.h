@@ -28,6 +28,7 @@ enum class IDs {
   Avancer,
   Epaisseur,
   Point,
+  RemplirEcran,
   Delai,
   Attendre,
   SautImage

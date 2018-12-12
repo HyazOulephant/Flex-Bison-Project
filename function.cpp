@@ -130,6 +130,12 @@ void imageTortue(unsigned int id){
       nb_frame_sprite = 1;
       break;
     }
+
+    case 6: {
+      pSprite = SDL_LoadBMP("turtles/megabuddy.bmp");
+      nb_frame_sprite = 4;
+      break;
+    }
   }
   frame_sprite = 0;
   turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
@@ -152,6 +158,11 @@ void rayonTrait(int X){    // Epaisseur du trait
 
 void createPoint(){    // Cree un point
   circle(epaisseur, x, y);
+  afficher();
+}
+
+void clearRender(){    // Cree un point
+  SDL_RenderClear(renderer);
   afficher();
 }
 

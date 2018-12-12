@@ -48,6 +48,7 @@ COULEUR|Couleur|couleur           { return COLOUR;  }
 AVANCE|Avance|avance              { return FORWARD;  }
 EPAISSEUR|Epaisseur|epaisseur     { return WIDTH;  }
 POINT|Point|point                 { return POINT;  }
+REMPLIR|Remplir|remplir           { return CLEARSCREEN;  }
 DELAI|Delai|delai                 { return TIME;  }
 ATTENDRE|Attendre|attendre        { return WAIT;  }
 

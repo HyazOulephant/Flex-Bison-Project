@@ -91,9 +91,10 @@ extern int yydebug;
     FORWARD = 293,
     WIDTH = 294,
     POINT = 295,
-    TIME = 296,
-    WAIT = 297,
-    FRAMESKIP = 298
+    CLEARSCREEN = 296,
+    TIME = 297,
+    WAIT = 298,
+    FRAMESKIP = 299
   };
 #endif
 
@@ -110,7 +111,7 @@ union YYSTYPE
   std::vector<std::string> * tabNoms;
   std::vector<Numerique *> * tabVals;
 
-#line 114 "projet.y.hpp" /* yacc.c:1909  */
+#line 115 "projet.y.hpp" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
