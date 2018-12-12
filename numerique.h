@@ -22,10 +22,7 @@ enum class Operateurs {
   Inferieur,
   Different,
   Sinus,
-  Cosinus,
-  ArcSinus,
-  ArcCosinus,
-  Racine
+  Cosinus
 };
 
 class Numerique {

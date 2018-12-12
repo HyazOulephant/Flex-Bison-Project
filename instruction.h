@@ -15,9 +15,6 @@ enum class IDs {
   FinRepete,
   TantQue,
   FinTantQue,
-  NouvelleFonction,
-  FinNouvelleFonction,
-  Fonction,
   VariableSet,
   // Instructions de la SDL
   Couleur,

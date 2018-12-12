@@ -43,16 +43,16 @@ void taille_fenetre(int X, int Y){
   window = SDL_CreateWindow("Turtle Drawing SDL2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, winWidth, winHeight, SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
 
-  pSprite = SDL_LoadBMP("turtles/pinceau.bmp");
+  pSprite = SDL_LoadBMP("turtles/nyan.bmp");
   turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite); // Préparation du sprite
 
   // Texture du dessin
   drawingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, winWidth, winHeight);
 
+  //SDL_CreateWindowAndRenderer(X, Y, 0, &window, &renderer);
   couleur(255,255,255);
   SDL_SetRenderTarget(renderer, drawingTexture); // On dessine dans la zone de dessin
   SDL_RenderClear(renderer);
-  couleur(0,0,0);
 
   afficher();
 }
@@ -93,7 +93,7 @@ void imageTortue(unsigned int id){
     // case 0:  break; // Quand l'id vaut 0, nous n'affichons pas l'image
 
     case 1: {
-      pSprite = SDL_LoadBMP("turtles/pinceau.bmp");
+      pSprite = SDL_LoadBMP("turtles/nyan.bmp");
       turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
       break;
     }
@@ -105,19 +105,13 @@ void imageTortue(unsigned int id){
     }
 
     case 3: {
-      pSprite = SDL_LoadBMP("turtles/nyan.bmp");
+      pSprite = SDL_LoadBMP("turtles/pinceau.bmp");
       turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
       break;
     }
 
     case 4: {
       pSprite = SDL_LoadBMP("turtles/carapace_bleue.bmp");
-      turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
-      break;
-    }
-
-    case 5: {
-      pSprite = SDL_LoadBMP("turtles/terre.bmp");
       turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
       break;
     }

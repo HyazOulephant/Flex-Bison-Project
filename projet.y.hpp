@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 #ifndef YY_YY_PROJET_Y_HPP_INCLUDED
 # define YY_YY_PROJET_Y_HPP_INCLUDED
 /* Debug traces.  */
@@ -40,13 +43,11 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 24 "projet.y" /* yacc.c:1909  */
+#line 24 "projet.y" /* yacc.c:1906  */
 
   #include "numerique.h"
-  #include <vector>
-  #include <string>
 
-#line 50 "projet.y.hpp" /* yacc.c:1909  */
+#line 51 "projet.y.hpp" /* yacc.c:1906  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -72,28 +73,23 @@ extern int yydebug;
     OP_DIFFERENT = 274,
     SINUS = 275,
     COSINUS = 276,
-    ARCSINUS = 277,
-    ARCCOSINUS = 278,
-    SQUAREROOT = 279,
-    IF = 280,
-    ELSE = 281,
-    ENDIF = 282,
-    REPEAT = 283,
-    ENDREPEAT = 284,
-    WHILE = 285,
-    ENDWHILE = 286,
-    FUNCTION = 287,
-    ENDFUNCTION = 288,
-    POSITION = 289,
-    TURTLE = 290,
-    COLOUR = 291,
-    ROTATE = 292,
-    FORWARD = 293,
-    WIDTH = 294,
-    POINT = 295,
-    TIME = 296,
-    WAIT = 297,
-    FRAMESKIP = 298
+    IF = 277,
+    ELSE = 278,
+    ENDIF = 279,
+    REPEAT = 280,
+    ENDREPEAT = 281,
+    WHILE = 282,
+    ENDWHILE = 283,
+    POSITION = 284,
+    TURTLE = 285,
+    COLOUR = 286,
+    ROTATE = 287,
+    FORWARD = 288,
+    WIDTH = 289,
+    POINT = 290,
+    TIME = 291,
+    WAIT = 292,
+    FRAMESKIP = 293
   };
 #endif
 
@@ -102,15 +98,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 31 "projet.y" /* yacc.c:1909  */
+#line 29 "projet.y" /* yacc.c:1906  */
 
   double valeur;
   char nom[50];
   Numerique * expr;
-  std::vector<std::string> * tabNoms;
-  std::vector<Numerique *> * tabVals;
 
-#line 114 "projet.y.hpp" /* yacc.c:1909  */
+#line 108 "projet.y.hpp" /* yacc.c:1906  */
 };
 
 typedef union YYSTYPE YYSTYPE;

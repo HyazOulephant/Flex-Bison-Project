@@ -5,7 +5,6 @@
   #include <string>
   #include <map>
   #include <math.h>
-  #include <utility>
   #include <SDL2/SDL.h>
 
   #include "numerique.h"
@@ -16,15 +15,14 @@
   extern int yylex ();
   int yyerror(char *s) { printf("%s\n", s); }
 
-  std::map< std::pair< std::string, unsigned int> , std::pair<unsigned int, std::vector<std::string> > > fonctions;
+  int posx = 0;
+  int posy = 0;
 
   std::vector<Instruction> pile = {};
 %}
 
 %code requires {
   #include "numerique.h"
-  #include <vector>
-  #include <string>
 }
 
 %union
@@ -32,8 +30,6 @@
   double valeur;
   char nom[50];
   Numerique * expr;
-  std::vector<std::string> * tabNoms;
-  std::vector<Numerique *> * tabVals;
 }
 
 %token <valeur> NUMBER
@@ -57,9 +53,6 @@
 %token OP_DIFFERENT
 %token SINUS
 %token COSINUS
-%token ARCSINUS
-%token ARCCOSINUS
-%token SQUAREROOT
 
 %token IF
 %token ELSE
@@ -68,8 +61,6 @@
 %token ENDREPEAT
 %token WHILE
 %token ENDWHILE
-%token FUNCTION
-%token ENDFUNCTION
 
 %token POSITION
 %token TURTLE
@@ -83,8 +74,6 @@
 %token FRAMESKIP
 
 %type <expr> expression
-%type <tabNoms> parametresIds
-%type <tabVals> parametresNbs
 
 %left OP_OR OP_AND
 %left OP_EQUAL OP_LESSER OP_GREATER OP_LESSEREQUAL OP_GREATEREQUAL OP_DIFFERENT
@@ -97,42 +86,6 @@ ligne : ligne instruction '\n'
       | ligne instruction BIGCOMMENT '\n'
       |    /* Epsilon */
       ;
-
-parametresIds : IDENTIFIER {
-                  std::vector<std::string> * t = new std::vector<std::string>;
-                  t->push_back($1);
-                  $$ = t;
-                }
-              | IDENTIFIER ',' parametresIds {
-                  std::vector<std::string> * v = new std::vector<std::string>;
-                  v->push_back($1);
-                  std::vector<std::string> * v2 = $3;
-                  v->insert( v->end(), v2->begin(), v2->end() );
-                  $$ = v;
-                }
-              | /* Pas de parametres */ {
-                  std::vector<std::string> * t = new std::vector<std::string>;
-                  $$ = t;
-                }
-              ;
-
-parametresNbs : expression {
-                  std::vector<Numerique *> * t = new std::vector<Numerique *>;
-                  t->push_back($1);
-                  $$ = t;
-                }
-              | expression ',' parametresNbs {
-                  std::vector<Numerique *> * v = new std::vector<Numerique *>;
-                  v->push_back($1);
-                  std::vector<Numerique *> * v2 = $3;
-                  v->insert( v->end(), v2->begin(), v2->end() );
-                  $$ = v;
-                }
-              | /* Pas de parametres */ {
-                  std::vector<Numerique *> * t = new std::vector<Numerique *>;
-                  $$ = t;
-                }
-              ;
 
 instruction : expression  {
                 pile.push_back(Instruction (IDs::ConsoleEcho, {$1}));
@@ -149,28 +102,6 @@ instruction : expression  {
                 pile.push_back(Instruction (IDs::TantQue, {$2}));
               } ligne ENDWHILE {
                 pile.push_back(Instruction (IDs::FinTantQue, {}));
-              }
-            | FUNCTION IDENTIFIER '(' parametresIds ')' {
-                std::vector<std::string> * t = $4;
-                std::vector<Numerique *> param;
-                param.push_back(new Numerique($2));
-                param.push_back(new Numerique(t->size()));
-                for(int i = 0; i < t->size(); i++){
-                  param.push_back(new Numerique( (std::string) t->at(i) ));
-                }
-                pile.push_back(Instruction (IDs::NouvelleFonction, param));
-              } ligne ENDFUNCTION {
-                pile.push_back(Instruction (IDs::FinNouvelleFonction, {}));
-              }
-            | IDENTIFIER '(' parametresNbs ')' {
-                std::vector<Numerique *> * t = $3;
-                std::vector<Numerique *> param;
-                param.push_back(new Numerique($1));
-                param.push_back(new Numerique(t->size()));
-                for(int i = 0; i < t->size(); i++){
-                  param.push_back(t->at(i));
-                }
-                pile.push_back(Instruction (IDs::Fonction, param));
               }
             | IDENTIFIER '=' expression {
                 pile.push_back(Instruction (IDs::VariableSet, {new Numerique($1), $3}));
@@ -235,9 +166,6 @@ expression: expression OP_PLUS expression           { $$ = new Numerique($1, Ope
           | expression OP_DIFFERENT expression      { $$ = new Numerique($1, Operateurs::Different, $3); }
           | SINUS '(' expression ')'                { $$ = new Numerique($3, Operateurs::Sinus, NULL); }
           | COSINUS '(' expression ')'              { $$ = new Numerique($3, Operateurs::Cosinus, NULL); }
-          | ARCSINUS '(' expression ')'             { $$ = new Numerique($3, Operateurs::ArcSinus, NULL); }
-          | ARCCOSINUS '(' expression ')'           { $$ = new Numerique($3, Operateurs::ArcCosinus, NULL); }
-          | SQUAREROOT '(' expression ')'           { $$ = new Numerique($3, Operateurs::Racine, NULL); }
           | '(' expression ')'            { $$ = $2; }
           | PI                            { $$ = new Numerique(M_PI); }
           | NUMBER                        { $$ = new Numerique($1); }
@@ -251,7 +179,6 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
 
     std::vector<Numerique *> params = stack[i].getParametres();
     IDs id = stack[i].getId();
-
     switch(id){
       case IDs::Rien: { // Ne fait rien... utile au deboquage
         // std::cout << "ATTENTION Il n'y a rien ici!" << std::endl;
@@ -342,6 +269,7 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
         break;
       }
 
+<<<<<<< HEAD
       case IDs::NouvelleFonction: { // Creation d'une fonction
         std::vector<std::string> temp;
         for(int k = 2; k < params.size(); k++){
@@ -385,6 +313,8 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
         break;
       }
 
+=======
+>>>>>>> master
       case IDs::VariableSet: { // Assignation d'une valeur a une variable
         variables[params[0]->getVarName()] = params[1]->getNum();
         break;
