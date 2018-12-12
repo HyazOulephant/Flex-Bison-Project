@@ -56,15 +56,6 @@ double Numerique::getNum() const{
       case Operateurs::Cosinus:
         return cos(this->m_valeurs[0]->getNum());
       break;
-      case Operateurs::ArcSinus:
-        return asin(this->m_valeurs[0]->getNum());
-      break;
-      case Operateurs::ArcCosinus:
-        return acos(this->m_valeurs[0]->getNum());
-      break;
-      case Operateurs::Racine:
-        return sqrt(this->m_valeurs[0]->getNum());
-      break;
     }
   }
   // Else
