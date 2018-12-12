@@ -448,13 +448,17 @@ unsigned int execution(std::vector<Instruction> stack, unsigned int iter){ // Pr
   }
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char* argv[])
+{
+  SDL_bool done = SDL_FALSE;
+SDL_Event event;
+
 
   // Grammaire
   if ( argc > 1 )
-    yyin = fopen( argv[1], "r" );
+  yyin = fopen( argv[1], "r" );
   else
-    yyin = stdin;
+  yyin = stdin;
   yyparse();
 
   // Creation de la fenetre
@@ -468,7 +472,13 @@ int main(int argc, char **argv) {
   afficher();
 
 
-  // On entre un caractere pour fermer la fenetre
-  std::string a;
-  std::cin >> a;
+  while (SDL_PollEvent(&event) || !done) {
+    if (event.type == SDL_QUIT) {
+      done = SDL_TRUE;
+    }
+  }
+
+
+  SDL_Quit();
+  return 0;
 }
