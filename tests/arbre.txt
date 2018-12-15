@@ -18,8 +18,6 @@ FONCTION arbre(taille,angleg,angled,coeffg,coeffd)
     INCLINE 180 - angleg
     TORTUE VRAI
 
-taille
-
     // Arbre Droit
     INCLINE 0-angled
     arbre(coeffd*taille,angleg,angled,coeffg,coeffd)
@@ -36,4 +34,4 @@ taille
   FINSI
 FINFONCTION
 
-arbre(300,70,60,0.65,0.75)
+arbre(200,70,60,0.65,0.75)

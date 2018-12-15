@@ -56,7 +56,7 @@ INCLINE|Incline|incline                                 { return ROTATE;  }
 SAUTIMAGE|SautImage|Sautimage|sautimage|SAUT|Saut|saut  { return FRAMESKIP;  }
 
 
-[a-zA-Z_]+                        { strcpy(yylval.nom,yytext); return IDENTIFIER; }
+[a-zA-Z_]+[a-zA-Z_0-9]*           { strcpy(yylval.nom,yytext); return IDENTIFIER; }
 
 \n								{ return '\n'; }
 \r								{ return '\n'; }

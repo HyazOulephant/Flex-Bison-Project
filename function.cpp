@@ -136,6 +136,12 @@ void imageTortue(unsigned int id){
       nb_frame_sprite = 4;
       break;
     }
+
+    case 7: {
+      pSprite = SDL_LoadBMP("turtles/SANIC.bmp");
+      nb_frame_sprite = 4;
+      break;
+    }
   }
   frame_sprite = 0;
   turtleTexture = SDL_CreateTextureFromSurface(renderer,pSprite);
